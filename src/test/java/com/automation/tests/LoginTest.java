@@ -14,14 +14,14 @@ public class LoginTest extends BaseTest {
 
     @BeforeMethod
     public void setUpPage() {
-        driver.get(ConfigReader.get("BASE_URL"));
-        loginPage = new LoginPage(driver);
+        getDriver().get(ConfigReader.get("BASE_URL"));
+        loginPage = new LoginPage(getDriver());
     }
 
     @Test
     public void successfulLoginTest() {
         loginPage.login(ConfigReader.get("STANDARD_USER"), ConfigReader.get("PASSWORD"));
-        assertThat(driver.getCurrentUrl()).isEqualTo(ConfigReader.get("BASE_URL") + ConfigReader.get("INVENTORY_PATH"));
+        assertThat(getDriver().getCurrentUrl()).isEqualTo(ConfigReader.get("BASE_URL") + ConfigReader.get("INVENTORY_PATH"));
     }
 
     @Test
