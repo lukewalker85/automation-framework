@@ -14,29 +14,35 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class BaseTest {
 
-    protected WebDriver driver;
+    private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+
+    protected WebDriver getDriver() {
+        return driver.get();
+    }
 
     @BeforeMethod
     public void setUp() {
         String browser = ConfigReader.get("BROWSER").toLowerCase();
+        WebDriver webDriver;
 
         switch (browser) {
             case "chrome":
                 WebDriverManager.chromedriver().setup();
-                driver = new ChromeDriver();
+                webDriver = new ChromeDriver();
                 break;
             case "edge":
                 WebDriverManager.edgedriver().setup();
-                driver = new EdgeDriver();
+                webDriver = new EdgeDriver();
                 break;
             case "firefox":
             default:
                 WebDriverManager.firefoxdriver().setup();
-                driver = new FirefoxDriver();
+                webDriver = new FirefoxDriver();
                 break;
         }
 
-        driver.manage().window().maximize();
+        webDriver.manage().window().maximize();
+        driver.set(webDriver);
     }
 
     @AfterMethod
