@@ -25,7 +25,7 @@ public class LoginTest extends BaseTest {
     }
 
     @Test
-    public void invalidLoginTest() {
+    public void lockedOutUserTest() {
         loginPage.login(ConfigReader.get("LOCKED_OUT_USER"), ConfigReader.get("PASSWORD"));
         assertThat(loginPage.getErrorMessage()).contains("Sorry, this user has been locked out");
     }
