@@ -63,21 +63,31 @@ Commits follow the Conventional Commits standard:
 From v0.2.0 onwards commits reference GitHub issue numbers e.g. `closes #4`.
 Earlier commits predate the project board setup.
 
+## Git Workflow
+From v0.2.0 onwards all changes are made on feature branches 
+and merged to master via Pull Requests.
+Earlier commits were made directly to master during initial setup.
+
+Branch naming convention:
+- `feature/` — new features e.g. `feature/1-cucumber-step-definitions`
+- `fix/` — bug fixes e.g. `fix/18-login-test-coverage`
+- `chore/` — maintenance e.g. `chore/update-dependencies`
+
 ## Roadmap
-
-The following enhancements are planned and tracked on the GitHub Project board:
-
 - [ ] Cucumber BDD feature files and step definitions
 - [ ] TestNG DataProvider driven tests
-- [ ] WireMock IAM API mocking with REST Assured
 - [ ] Screenshot on failure
+- [ ] Log4j logging
+- [ ] WireMock IAM API mocking with REST Assured
+- [ ] Add CartPage and cart tests
+- [ ] Add CheckoutPage and end to end checkout tests
+- [ ] Add test grouping for smoke and regression suites
 - [ ] Allure test reporting
 - [ ] Headless browser mode
+- [ ] Environment switching
 - [ ] Cross browser test matrix
 - [ ] Docker + Selenium Grid
 - [ ] Jenkins CI/CD pipeline
 - [ ] GitHub Actions workflow
-- [ ] Log4j logging
 - [ ] Retry failed tests
 - [ ] Slack notifications
-- [ ] Environment switching (dev/staging/prod)
