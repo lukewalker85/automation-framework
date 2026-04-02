@@ -16,7 +16,7 @@ public class BaseTest {
 
     private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
-    protected WebDriver getDriver() {
+    public WebDriver getDriver() {
         return driver.get();
     }
 
