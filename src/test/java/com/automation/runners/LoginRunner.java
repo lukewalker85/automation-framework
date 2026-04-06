@@ -13,6 +13,10 @@ import io.cucumber.testng.CucumberOptions;
 )
 public class LoginRunner extends AbstractTestNGCucumberTests {
 
+    /**
+     * Provides Cucumber scenarios as a TestNG DataProvider 
+     * with parallel execution enabled.
+     */
     @Override
     @DataProvider(parallel=true)
     public Object[][] scenarios() {
