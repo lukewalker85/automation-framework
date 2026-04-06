@@ -10,29 +10,29 @@ import com.automation.utils.ConfigReader;
 
 public class LoginTest extends BaseTest {
 
-    private LoginPage loginPage;
+    private static ThreadLocal<LoginPage> loginPage = new ThreadLocal<>();
 
     @BeforeMethod
     public void setUpPage() {
         getDriver().get(ConfigReader.get("BASE_URL"));
-        loginPage = new LoginPage(getDriver());
+        loginPage.set(new LoginPage(getDriver()));
     }
 
     @Test
     public void successfulLoginTest() {
-        loginPage.login(ConfigReader.get("STANDARD_USER"), ConfigReader.get("PASSWORD"));
+        loginPage.get().login(ConfigReader.get("STANDARD_USER"), ConfigReader.get("PASSWORD"));
         assertThat(getDriver().getCurrentUrl()).isEqualTo(ConfigReader.get("BASE_URL") + ConfigReader.get("INVENTORY_PATH"));
     }
 
     @Test
     public void lockedOutUserTest() {
-        loginPage.login(ConfigReader.get("LOCKED_OUT_USER"), ConfigReader.get("PASSWORD"));
-        assertThat(loginPage.getErrorMessage()).contains("Sorry, this user has been locked out");
+        loginPage.get().login(ConfigReader.get("LOCKED_OUT_USER"), ConfigReader.get("PASSWORD"));
+        assertThat(loginPage.get().getErrorMessage()).contains("Sorry, this user has been locked out");
     }
 
     @Test
     public void invalidPasswordTest() {
-        loginPage.login(ConfigReader.get("STANDARD_USER"), ConfigReader.get("INVALID_PASSWORD"));
-        assertThat(loginPage.getErrorMessage()).contains("Username and password do not match any user in this service");
+        loginPage.get().login(ConfigReader.get("STANDARD_USER"), ConfigReader.get("INVALID_PASSWORD"));
+        assertThat(loginPage.get().getErrorMessage()).contains("Username and password do not match any user in this service");
     }
  }
