@@ -2,8 +2,11 @@ package com.automation.base;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
@@ -28,17 +31,32 @@ public class BaseTest {
         switch (browser) {
             case "chrome":
                 WebDriverManager.chromedriver().setup();
-                webDriver = new ChromeDriver();
+                ChromeOptions chromeOptions = new ChromeOptions();
+                if (isHeadless()) {
+                    chromeOptions.addArguments("--headless");
+                }
+                webDriver = new ChromeDriver(chromeOptions);
                 break;
+
             case "edge":
                 WebDriverManager.edgedriver().setup();
-                webDriver = new EdgeDriver();
+                EdgeOptions edgeOptions = new EdgeOptions();
+                if (isHeadless()) {
+                    edgeOptions.addArguments("--headless");
+                }
+                webDriver = new EdgeDriver(edgeOptions);
                 break;
             case "firefox":
             default:
                 WebDriverManager.firefoxdriver().setup();
-                webDriver = new FirefoxDriver();
+                FirefoxOptions firefoxOptions = new FirefoxOptions();
+                if (isHeadless()) {
+                    firefoxOptions.addArguments("--headless");
+                }
+                webDriver = new FirefoxDriver(firefoxOptions);
                 break;
+
+
         }
 
         webDriver.manage().window().maximize();
@@ -51,5 +69,9 @@ public class BaseTest {
             driver.get().quit();
             driver.remove();
         }
+    }
+
+    public boolean isHeadless() {
+        return "true".equalsIgnoreCase(ConfigReader.get("HEADLESS"));
     }
 }
