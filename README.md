@@ -22,6 +22,7 @@ BDD, API testing and CI/CD integration.
 | CodeRabbit | Automated AI code reviews on pull requests |
 
 ## Project Structure
+
 ```
 src/test/java/com/automation/
 ├── api/              # REST Assured IAM API tests
@@ -37,6 +38,7 @@ src/test/resources/
 ```
 
 ## Running Tests
+
 ```bash
 # Run full test suite
 mvn test
@@ -67,6 +69,7 @@ From v0.2.0 onwards commits reference GitHub issue numbers e.g. `closes #4`.
 Earlier commits predate the project board setup.
 
 ## Git Workflow
+
 From v0.2.0 onwards all changes are made on feature branches 
 and merged to master via Pull Requests.
 Earlier commits were made directly to master during initial setup.
@@ -77,6 +80,7 @@ Branch naming convention:
 - `chore/` — maintenance e.g. `chore/update-dependencies`
 
 ## Code Review
+
 All pull requests are reviewed by [CodeRabbit](https://coderabbit.ai) before merging.
 The review is configured in `.coderabbit.yaml` with an assertive profile
 that provides inline comments and a high-level summary on every PR.

@@ -9,12 +9,12 @@ reviews:
   review_status: true
   review_details: false
   changed_files_summary: true
-  auto_review:
-    enabled: true
-    drafts: false
-    path_filters: 
+  path_filters: 
       - '!**/.gitkeep' 
       - '!.gitignore'
       - '!target/**'
+  auto_review:
+    enabled: true
+    drafts: false
 chat:
   auto_reply: true
