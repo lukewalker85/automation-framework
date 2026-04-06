@@ -1,3 +1,5 @@
+[![CI](https://github.com/lukewalker85/automation-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/lukewalker85/automation-framework/actions)
+
 # Automation Framework
 
 A scalable test automation framework built from scratch using Java and Selenium 
@@ -74,7 +76,7 @@ Branch naming convention:
 - `chore/` — maintenance e.g. `chore/update-dependencies`
 
 ## Roadmap
-- [ ] Cucumber BDD feature files and step definitions
+- [x] Cucumber BDD feature files and step definitions
 - [ ] TestNG DataProvider driven tests
 - [ ] Screenshot on failure
 - [ ] Log4j logging
