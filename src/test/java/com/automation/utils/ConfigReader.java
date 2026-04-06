@@ -20,7 +20,11 @@ public class ConfigReader {
     }
 
     public static String get(String key) {
-        return properties.getProperty(key);
+    String env = System.getenv(key);
+    if (env != null) {
+        return env;
     }
+    return properties.getProperty(key);
+}
     
 }
