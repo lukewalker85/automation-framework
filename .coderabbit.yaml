@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: "en-GB"
+early_access: false
+enable_free_tier: true
+reviews:
+  profile: "assertive"
+  request_changes_workflow: true
+  high_level_summary: true
+  review_status: true
+  review_details: false
+  changed_files_summary: true
+  path_filters: 
+      - '!**/.gitkeep' 
+      - '!.gitignore'
+      - '!target/**'
+  auto_review:
+    enabled: true
+    drafts: false
+chat:
+  auto_reply: true

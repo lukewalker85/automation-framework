@@ -19,8 +19,10 @@ BDD, API testing and CI/CD integration.
 | AssertJ | Fluent assertions |
 | WebDriverManager | Automatic driver management |
 | Maven | Build and dependency management |
+| CodeRabbit | Automated AI code reviews on pull requests |
 
 ## Project Structure
+
 ```
 src/test/java/com/automation/
 ├── api/              # REST Assured IAM API tests
@@ -36,6 +38,7 @@ src/test/resources/
 ```
 
 ## Running Tests
+
 ```bash
 # Run full test suite
 mvn test
@@ -66,6 +69,7 @@ From v0.2.0 onwards commits reference GitHub issue numbers e.g. `closes #4`.
 Earlier commits predate the project board setup.
 
 ## Git Workflow
+
 From v0.2.0 onwards all changes are made on feature branches 
 and merged to master via Pull Requests.
 Earlier commits were made directly to master during initial setup.
@@ -74,6 +78,20 @@ Branch naming convention:
 - `feature/` — new features e.g. `feature/1-cucumber-step-definitions`
 - `fix/` — bug fixes e.g. `fix/18-login-test-coverage`
 - `chore/` — maintenance e.g. `chore/update-dependencies`
+
+## Code Review
+
+All pull requests are reviewed by [CodeRabbit](https://coderabbit.ai) before merging.
+The review is configured in `.coderabbit.yaml` with an assertive profile
+that provides inline comments and a high-level summary on every PR.
+
+Pull request workflow:
+1. Create feature branch from master
+2. Push changes and open a pull request
+3. CI pipeline runs tests automatically
+4. CodeRabbit performs automated code review
+5. Address any feedback from review
+6. Merge to master once approved and CI is green
 
 ## Roadmap
 - [x] Cucumber BDD feature files and step definitions
@@ -85,11 +103,12 @@ Branch naming convention:
 - [ ] Add CheckoutPage and end to end checkout tests
 - [ ] Add test grouping for smoke and regression suites
 - [ ] Allure test reporting
-- [ ] Headless browser mode
+- [x] Headless browser mode
 - [ ] Environment switching
 - [ ] Cross browser test matrix
 - [ ] Docker + Selenium Grid
 - [ ] Jenkins CI/CD pipeline
-- [ ] GitHub Actions workflow
+- [x] GitHub Actions workflow
 - [ ] Retry failed tests
 - [ ] Slack notifications
+- [x] AI code reviews on pull requests
