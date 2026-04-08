@@ -29,3 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.2.0] - 2026-04-02
 
 Initial tagged release.
+
+[Unreleased]: https://github.com/lukewalker85/automation-framework/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/lukewalker85/automation-framework/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/lukewalker85/automation-framework/commit/005d7ec
