@@ -12,7 +12,7 @@ import com.automation.utils.ConfigReader;
 
 public class LoginTest extends BaseTest {
 
-    private static ThreadLocal<LoginPage> loginPage = new ThreadLocal<>();
+    private static final ThreadLocal<LoginPage> loginPage = new ThreadLocal<>();
     
     @BeforeMethod
     public void setUpPage() {
