@@ -17,7 +17,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class BaseTest {
 
-    private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+    private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
     public WebDriver getDriver() {
         return driver.get();
@@ -56,17 +56,20 @@ public class BaseTest {
                 webDriver = new FirefoxDriver(firefoxOptions);
                 break;
 
-
         }
 
         webDriver.manage().window().maximize();
         driver.set(webDriver);
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun=true)
     public void tearDown() {
-        if (driver.get() != null) {
-            driver.get().quit();
+        WebDriver currentDriver = driver.get();
+        try {
+            if (currentDriver != null) {
+                currentDriver.quit();
+            }
+        } finally {
             driver.remove();
         }
     }
