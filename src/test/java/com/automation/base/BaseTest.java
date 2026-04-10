@@ -63,7 +63,7 @@ public class BaseTest {
         driver.set(webDriver);
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun=true)
     public void tearDown() {
         if (driver.get() != null) {
             driver.get().quit();

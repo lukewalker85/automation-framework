@@ -1,6 +1,7 @@
 package com.automation.tests;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -39,5 +40,10 @@ public class LoginTest extends BaseTest {
         {new LoginScenario("invalid password", ConfigReader.get("STANDARD_USER"), ConfigReader.get("INVALID_PASSWORD"), "Username and password do not match any user in this service")}
         };
     }
+
+     @AfterMethod(alwaysRun=true)
+     public void tearDownPage()  {
+        loginPage.remove();
+     }
 
  }
