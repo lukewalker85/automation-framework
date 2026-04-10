@@ -56,7 +56,6 @@ public class BaseTest {
                 webDriver = new FirefoxDriver(firefoxOptions);
                 break;
 
-
         }
 
         webDriver.manage().window().maximize();
@@ -65,8 +64,12 @@ public class BaseTest {
 
     @AfterMethod(alwaysRun=true)
     public void tearDown() {
-        if (driver.get() != null) {
-            driver.get().quit();
+        WebDriver currentDriver = driver.get();
+        try {
+            if (currentDriver != null) {
+                currentDriver.quit();
+            }
+        } finally {
             driver.remove();
         }
     }
