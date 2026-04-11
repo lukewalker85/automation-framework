@@ -63,6 +63,7 @@ Commits follow the Conventional Commits standard:
 |---|---|
 | `feat:` | New feature or class |
 | `fix:` | Bug fix |
+| `refactor:` | Code restructure without behaviour change |
 | `chore:` | Configuration or maintenance |
 
 From v0.2.0 onwards commits reference GitHub issue numbers e.g. `closes #4`.
@@ -78,6 +79,7 @@ Branch naming convention:
 - `feature/` — new features e.g. `feature/1-cucumber-step-definitions`
 - `fix/` — bug fixes e.g. `fix/18-login-test-coverage`
 - `chore/` — maintenance e.g. `chore/update-dependencies`
+- `refactor/` - Code restructure without behaviour change 
 
 ## Code Review
 
