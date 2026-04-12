@@ -15,7 +15,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
-      - name: Run tests
-        run: mvn test
+      - name: Build and test
+        run: mvn verify
         env:
           HEADLESS: true
