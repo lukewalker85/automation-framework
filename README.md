@@ -55,6 +55,51 @@ All environment configuration lives in `src/test/resources/config.properties`.
 > **Note:** In production, sensitive values such as passwords and URLs should
 > be stored as environment variables or a secrets manager, never committed to Git.
 
+## Code Formatting
+
+Code formatting is enforced by [Spotless](https://github.com/diffplug/spotless)
+using [Google Java Format](https://github.com/google/google-java-format).
+The `spotless:check` goal is bound to Maven's `validate` phase, so any
+formatting violation fails the build before tests run.
+
+### Before pushing
+
+Run the full build locally — this runs the formatting check, tests, and
+packaging in one command:
+
+```bash
+mvn verify
+```
+
+### Fixing violations
+
+If Spotless reports violations, auto-fix them with:
+
+```bash
+mvn spotless:apply
+```
+
+Then re-run `mvn verify` to confirm everything is clean.
+
+### IDE integration (optional)
+
+For automatic formatting on save, install a Google Java Format plugin:
+- IntelliJ IDEA: [google-java-format plugin](https://plugins.jetbrains.com/plugin/8527-google-java-format)
+- VS Code: [Language Support for Java by Red Hat](https://marketplace.visualstudio.com/items?itemName=redhat.java) + google-java-format formatter
+
+### Git blame
+
+A mass reformat commit exists in the history (PR for #40). To make
+`git blame` skip it and show the original authoring commits, run
+this once per clone:
+
+```bash
+git config blame.ignoreRevsFile .git-blame-ignore-revs
+```
+
+GitHub's web UI respects `.git-blame-ignore-revs` automatically, so
+this is only needed for local blame.
+
 ## Git Convention
 
 Commits follow the Conventional Commits standard:
