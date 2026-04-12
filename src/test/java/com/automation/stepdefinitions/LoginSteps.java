@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.automation.base.BaseTest;
 import com.automation.pages.LoginPage;
+import com.automation.testdata.LoginErrorMessages;
 import com.automation.utils.ConfigReader;
 
 import io.cucumber.java.en.Given;
@@ -48,11 +49,11 @@ public class LoginSteps {
 
     @Then("they should see a locked out error message")
     public void theyShouldSeeALockedOutMessage() {
-        assertThat(loginPage.getErrorMessage()).contains("Sorry, this user has been locked out");
+        assertThat(loginPage.getErrorMessage()).contains(LoginErrorMessages.LOCKED_OUT);
     }
 
     @Then("they should see an invalid credentials error message")
     public void theyShouldSeeAnInvalidCredentialsErrorMessage() {
-        assertThat(loginPage.getErrorMessage()).contains("Username and password do not match any user in this service");
+        assertThat(loginPage.getErrorMessage()).contains(LoginErrorMessages.INVALID_CREDENTIALS);
     }
 }

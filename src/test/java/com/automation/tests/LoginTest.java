@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 
 import com.automation.base.BaseTest;
 import com.automation.pages.LoginPage;
+import com.automation.testdata.LoginErrorMessages;
 import com.automation.testdata.LoginScenario;
 import com.automation.utils.ConfigReader;
 
@@ -36,8 +37,8 @@ public class LoginTest extends BaseTest {
     @DataProvider(name = "failedLoginData")
     public Object[][] failedLoginData() {
         return new Object[][] {
-        {new LoginScenario("locked out user", ConfigReader.get("LOCKED_OUT_USER"), ConfigReader.get("PASSWORD"), "Sorry, this user has been locked out")},
-        {new LoginScenario("invalid password", ConfigReader.get("STANDARD_USER"), ConfigReader.get("INVALID_PASSWORD"), "Username and password do not match any user in this service")}
+        {new LoginScenario("locked out user", ConfigReader.get("LOCKED_OUT_USER"), ConfigReader.get("PASSWORD"), LoginErrorMessages.LOCKED_OUT)},
+        {new LoginScenario("invalid password", ConfigReader.get("STANDARD_USER"), ConfigReader.get("INVALID_PASSWORD"), LoginErrorMessages.INVALID_CREDENTIALS)}
         };
     }
 
