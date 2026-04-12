@@ -1,5 +1,7 @@
 package com.automation.base;
 
+import com.automation.utils.ConfigReader;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -10,71 +12,65 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
-import com.automation.utils.ConfigReader;
-
-import io.github.bonigarcia.wdm.WebDriverManager;
-
-
 public class BaseTest {
 
-    private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+  private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
-    public WebDriver getDriver() {
-        return driver.get();
-    }
+  public WebDriver getDriver() {
+    return driver.get();
+  }
 
-    @BeforeMethod
-    public void setUp() {
-        String browser = ConfigReader.get("BROWSER").toLowerCase();
-        WebDriver webDriver;
+  @BeforeMethod
+  public void setUp() {
+    String browser = ConfigReader.get("BROWSER").toLowerCase();
+    WebDriver webDriver;
 
-        switch (browser) {
-            case "chrome":
-                WebDriverManager.chromedriver().setup();
-                ChromeOptions chromeOptions = new ChromeOptions();
-                if (isHeadless()) {
-                    chromeOptions.addArguments("--headless");
-                }
-                webDriver = new ChromeDriver(chromeOptions);
-                break;
-
-            case "edge":
-                WebDriverManager.edgedriver().setup();
-                EdgeOptions edgeOptions = new EdgeOptions();
-                if (isHeadless()) {
-                    edgeOptions.addArguments("--headless");
-                }
-                webDriver = new EdgeDriver(edgeOptions);
-                break;
-            case "firefox":
-            default:
-                WebDriverManager.firefoxdriver().setup();
-                FirefoxOptions firefoxOptions = new FirefoxOptions();
-                if (isHeadless()) {
-                    firefoxOptions.addArguments("--headless");
-                }
-                webDriver = new FirefoxDriver(firefoxOptions);
-                break;
-
+    switch (browser) {
+      case "chrome":
+        WebDriverManager.chromedriver().setup();
+        ChromeOptions chromeOptions = new ChromeOptions();
+        if (isHeadless()) {
+          chromeOptions.addArguments("--headless");
         }
+        webDriver = new ChromeDriver(chromeOptions);
+        break;
 
-        webDriver.manage().window().maximize();
-        driver.set(webDriver);
-    }
-
-    @AfterMethod(alwaysRun=true)
-    public void tearDown() {
-        WebDriver currentDriver = driver.get();
-        try {
-            if (currentDriver != null) {
-                currentDriver.quit();
-            }
-        } finally {
-            driver.remove();
+      case "edge":
+        WebDriverManager.edgedriver().setup();
+        EdgeOptions edgeOptions = new EdgeOptions();
+        if (isHeadless()) {
+          edgeOptions.addArguments("--headless");
         }
+        webDriver = new EdgeDriver(edgeOptions);
+        break;
+      case "firefox":
+      default:
+        WebDriverManager.firefoxdriver().setup();
+        FirefoxOptions firefoxOptions = new FirefoxOptions();
+        if (isHeadless()) {
+          firefoxOptions.addArguments("--headless");
+        }
+        webDriver = new FirefoxDriver(firefoxOptions);
+        break;
     }
 
-    public boolean isHeadless() {
-        return "true".equalsIgnoreCase(ConfigReader.get("HEADLESS"));
+    webDriver.manage().window().maximize();
+    driver.set(webDriver);
+  }
+
+  @AfterMethod(alwaysRun = true)
+  public void tearDown() {
+    WebDriver currentDriver = driver.get();
+    try {
+      if (currentDriver != null) {
+        currentDriver.quit();
+      }
+    } finally {
+      driver.remove();
     }
+  }
+
+  public boolean isHeadless() {
+    return "true".equalsIgnoreCase(ConfigReader.get("HEADLESS"));
+  }
 }
