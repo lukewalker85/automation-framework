@@ -20,6 +20,7 @@ BDD, API testing and CI/CD integration.
 | WebDriverManager | Automatic driver management |
 | Maven | Build and dependency management |
 | CodeRabbit | Automated AI code reviews on pull requests |
+| JUnit 5 | Unit test execution |
 
 ## Project Structure
 
@@ -40,12 +41,14 @@ src/test/resources/
 ## Running Tests
 
 ```bash
-# Run full test suite
+# Run unit tests only
 mvn test
+# Run full test suite
+mvn verify
 
 # Run with specific browser (set in config.properties)
 # Options: firefox, chrome, edge
-BROWSER=chrome mvn test
+BROWSER=chrome mvn verify
 ```
 
 ## Configuration
@@ -142,7 +145,7 @@ Pull request workflow:
 
 ## Roadmap
 - [x] Cucumber BDD feature files and step definitions
-- [ ] TestNG DataProvider driven tests
+- [x] TestNG DataProvider driven tests
 - [ ] Screenshot on failure
 - [ ] Log4j logging
 - [ ] WireMock IAM API mocking with REST Assured
