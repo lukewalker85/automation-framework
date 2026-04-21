@@ -3,13 +3,13 @@
 
     <test name="LoginTests">
         <classes>
-            <class name="com.automation.tests.LoginTest"/>
+            <class name="com.automation.tests.LoginIT"/>
         </classes>
     </test>
 
     <test name="CucumberTests">
         <classes>
-            <class name="com.automation.runners.LoginRunner"/>
+            <class name="com.automation.runners.LoginRunnerIT"/>
         </classes>
     </test>
 

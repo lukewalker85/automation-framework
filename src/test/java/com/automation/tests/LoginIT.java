@@ -11,7 +11,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-public class LoginTest extends BaseTest {
+public class LoginIT extends BaseTest {
 
   private static final ThreadLocal<LoginPage> loginPage = new ThreadLocal<>();
 
