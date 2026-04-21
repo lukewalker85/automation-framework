@@ -15,8 +15,7 @@ import org.testng.annotations.BeforeMethod;
 public class BaseTest {
 
   private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
-  private final ConfigReader configReader =
-      new ConfigReader("src/test/resources/config.properties");
+  private final ConfigReader configReader = new ConfigReader("config.properties");
 
   public WebDriver getDriver() {
     return driver.get();

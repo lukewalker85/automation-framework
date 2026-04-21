@@ -1,7 +1,8 @@
 package com.automation.utils;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.function.Function;
 
@@ -11,29 +12,32 @@ public class ConfigReader {
   private final Function<String, String> envLookup;
 
   public ConfigReader(Properties properties, Function<String, String> envLookup) {
-    this.properties = properties;
-    this.envLookup = envLookup;
+    this.properties = Objects.requireNonNull(properties, "properties must not be null");
+    this.envLookup = Objects.requireNonNull(envLookup, "envLookup must not be null");
   }
 
-  public ConfigReader(String path) {
-    this(loadProperties(path), System::getenv);
+  public ConfigReader(String classpathResource) {
+    this(loadFromClasspath(classpathResource), System::getenv);
+  }
+
+  private static Properties loadFromClasspath(String resource) {
+    Properties props = new Properties();
+    try (InputStream stream = ConfigReader.class.getClassLoader().getResourceAsStream(resource)) {
+      if (stream == null) {
+        throw new RuntimeException("Resource not found on classpath: " + resource);
+      }
+      props.load(stream);
+    } catch (IOException e) {
+      throw new RuntimeException("Could not load config from " + resource, e);
+    }
+    return props;
   }
 
   public String get(String key) {
     String env = envLookup.apply(key);
-    if (env != null) {
+    if (env != null && !env.isEmpty()) {
       return env;
     }
     return properties.getProperty(key);
-  }
-
-  private static Properties loadProperties(String path) {
-    Properties props = new Properties();
-    try (FileInputStream file = new FileInputStream(path)) {
-      props.load(file);
-    } catch (IOException e) {
-      throw new RuntimeException("Could not load config from " + path, e);
-    }
-    return props;
   }
 }

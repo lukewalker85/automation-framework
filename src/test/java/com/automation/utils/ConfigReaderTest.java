@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 class ConfigReaderTest {
 
-  // Test 1: valid property returns expected value
   @Test
   void shouldReturnPropertyValue() {
     Properties props = new Properties();
@@ -19,7 +18,6 @@ class ConfigReaderTest {
     assertThat(result).isEqualTo("FIREFOX");
   }
 
-  // Test 2: missing property returns null
   @Test
   void shouldReturnNullForMissingProperty() {
     Properties props = new Properties();
@@ -29,7 +27,6 @@ class ConfigReaderTest {
     assertThat(result).isNull();
   }
 
-  // Test 3: env var overrides property
   @Test
   void shouldReturnEnvVarOverProperty() {
     Properties props = new Properties();
@@ -40,7 +37,6 @@ class ConfigReaderTest {
     assertThat(result).isEqualTo("CHROME");
   }
 
-  // Test 4: env lookup uses the injected function
   @Test
   void shouldUseInjectedEnvLookup() {
     Properties props = new Properties();
@@ -48,5 +44,15 @@ class ConfigReaderTest {
     ConfigReader config = new ConfigReader(props, fakeEnv);
     String result = config.get("PATH");
     assertThat(result).isEqualTo("injected-value");
+  }
+
+  @Test
+  void shouldFallBackToPropertyWhenEnvVarIsEmpty() {
+    Properties props = new Properties();
+    props.setProperty("KEY", "VALUE");
+    Function<String, String> emptyString = key -> key.equals("KEY") ? "" : null;
+    ConfigReader config = new ConfigReader(props, emptyString);
+    String result = config.get("KEY");
+    assertThat(result).isEqualTo("VALUE");
   }
 }
