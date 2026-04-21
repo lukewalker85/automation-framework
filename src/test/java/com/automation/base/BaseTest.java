@@ -15,14 +15,20 @@ import org.testng.annotations.BeforeMethod;
 public class BaseTest {
 
   private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+  private final ConfigReader configReader = new ConfigReader("config.properties");
 
   public WebDriver getDriver() {
     return driver.get();
   }
 
+  public ConfigReader getConfigReader() {
+    return configReader;
+  }
+
   @BeforeMethod
   public void setUp() {
-    String browser = ConfigReader.get("BROWSER").toLowerCase();
+    String configuredBrowser = configReader.get("BROWSER");
+    String browser = configuredBrowser == null ? "firefox" : configuredBrowser.toLowerCase();
     WebDriver webDriver;
 
     switch (browser) {
@@ -71,6 +77,6 @@ public class BaseTest {
   }
 
   public boolean isHeadless() {
-    return "true".equalsIgnoreCase(ConfigReader.get("HEADLESS"));
+    return "true".equalsIgnoreCase(configReader.get("HEADLESS"));
   }
 }

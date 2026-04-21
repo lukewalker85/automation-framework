@@ -9,7 +9,7 @@ import org.testng.annotations.DataProvider;
     glue = "com.automation.stepdefinitions",
     plugin = {"pretty", "html:target/cucumber-reports.html"},
     monochrome = true)
-public class LoginRunner extends AbstractTestNGCucumberTests {
+public class LoginRunnerIT extends AbstractTestNGCucumberTests {
 
   /** Provides Cucumber scenarios as a TestNG DataProvider with parallel execution enabled. */
   @Override
