@@ -27,7 +27,8 @@ public class BaseTest {
 
   @BeforeMethod
   public void setUp() {
-    String browser = configReader.get("BROWSER").toLowerCase();
+    String configuredBrowser = configReader.get("BROWSER");
+    String browser = configuredBrowser == null ? "firefox" : configuredBrowser.toLowerCase();
     WebDriver webDriver;
 
     switch (browser) {
