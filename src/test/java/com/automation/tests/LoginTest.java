@@ -6,7 +6,6 @@ import com.automation.base.BaseTest;
 import com.automation.pages.LoginPage;
 import com.automation.testdata.LoginErrorMessages;
 import com.automation.testdata.LoginScenario;
-import com.automation.utils.ConfigReader;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -18,15 +17,17 @@ public class LoginTest extends BaseTest {
 
   @BeforeMethod
   public void setUpPage() {
-    getDriver().get(ConfigReader.get("BASE_URL"));
+    getDriver().get(getConfigReader().get("BASE_URL"));
     loginPage.set(new LoginPage(getDriver()));
   }
 
   @Test
   public void successfulLoginTest() {
-    loginPage.get().login(ConfigReader.get("STANDARD_USER"), ConfigReader.get("PASSWORD"));
+    loginPage
+        .get()
+        .login(getConfigReader().get("STANDARD_USER"), getConfigReader().get("PASSWORD"));
     assertThat(getDriver().getCurrentUrl())
-        .isEqualTo(ConfigReader.get("BASE_URL") + ConfigReader.get("INVENTORY_PATH"));
+        .isEqualTo(getConfigReader().get("BASE_URL") + getConfigReader().get("INVENTORY_PATH"));
   }
 
   @Test(dataProvider = "failedLoginData")
@@ -41,15 +42,15 @@ public class LoginTest extends BaseTest {
       {
         new LoginScenario(
             "locked out user",
-            ConfigReader.get("LOCKED_OUT_USER"),
-            ConfigReader.get("PASSWORD"),
+            getConfigReader().get("LOCKED_OUT_USER"),
+            getConfigReader().get("PASSWORD"),
             LoginErrorMessages.LOCKED_OUT)
       },
       {
         new LoginScenario(
             "invalid password",
-            ConfigReader.get("STANDARD_USER"),
-            ConfigReader.get("INVALID_PASSWORD"),
+            getConfigReader().get("STANDARD_USER"),
+            getConfigReader().get("INVALID_PASSWORD"),
             LoginErrorMessages.INVALID_CREDENTIALS)
       }
     };
