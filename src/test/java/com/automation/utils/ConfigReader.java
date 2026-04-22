@@ -40,4 +40,8 @@ public class ConfigReader {
     }
     return properties.getProperty(key);
   }
+
+  void applyLogLevel() {
+    // TODO: implement
+  }
 }
