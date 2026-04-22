@@ -2,6 +2,7 @@ package com.automation.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.function.Function;
@@ -18,6 +19,7 @@ public class ConfigReader {
 
   public ConfigReader(String classpathResource) {
     this(loadFromClasspath(classpathResource), System::getenv);
+    applyLogLevel();
   }
 
   private static Properties loadFromClasspath(String resource) {
@@ -41,7 +43,18 @@ public class ConfigReader {
     return properties.getProperty(key);
   }
 
-  void applyLogLevel() {
-    // TODO: implement
+  final void applyLogLevel() {
+    String logLevel = get("LOG_LEVEL");
+    if (logLevel == null) {
+      System.err.println("LOG_LEVEL not set, defaulting to INFO");
+      logLevel = "INFO";
+    }
+    logLevel = logLevel.trim();
+    if (logLevel.isEmpty()) {
+      System.err.println("LOG_LEVEL not set, defaulting to INFO");
+      logLevel = "INFO";
+    }
+    logLevel = logLevel.toUpperCase(Locale.ROOT);
+    System.setProperty("logLevel", logLevel);
   }
 }
