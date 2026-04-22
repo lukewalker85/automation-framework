@@ -71,6 +71,12 @@ class ConfigReaderTest {
   }
 
   @Test
+  void constructor_shouldApplyLogLevelFromClasspath() {
+    new ConfigReader("config.properties");
+    assertThat(System.getProperty("logLevel")).isNotNull();
+  }
+
+  @Test
   void applyLogLevel_shouldTrimWhitespace() {
     Properties props = new Properties();
     props.setProperty("LOG_LEVEL", "  debug  ");
