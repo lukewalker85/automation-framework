@@ -31,7 +31,7 @@ public class DriverFactory {
         WebDriverManager.chromedriver().setup();
         ChromeOptions chromeOptions = new ChromeOptions();
         if (headless) {
-          chromeOptions.addArguments("--headless");
+          chromeOptions.addArguments("--headless=new");
         }
         webDriver = new ChromeDriver(chromeOptions);
       }
@@ -40,7 +40,7 @@ public class DriverFactory {
         WebDriverManager.edgedriver().setup();
         EdgeOptions edgeOptions = new EdgeOptions();
         if (headless) {
-          edgeOptions.addArguments("--headless");
+          edgeOptions.addArguments("--headless=new");
         }
         webDriver = new EdgeDriver(edgeOptions);
       }
