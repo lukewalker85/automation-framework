@@ -60,10 +60,10 @@ All environment configuration lives in `src/test/resources/config.properties`.
 
 ## Logging
 
-Log4j2 is used to implement logging with SLF4J used to write the log messages.
+SLF4J is used as the logging API, with Log4j2 as the implementation.
 
 Log level can be configured by updating `src/test/resources/config.properties` or by passing in the environment variable when running `mvn verify`
-e.g `$ LOG_LEVEL=WARN mvn verify`. The default level is `INFO`.
+e.g. `LOG_LEVEL=WARN mvn verify`. The default level is `INFO`.
 
 Logs are written to both the console and to files in `target/logs/`, which rotate at 10 MB.
 

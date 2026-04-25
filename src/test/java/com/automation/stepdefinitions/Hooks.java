@@ -31,7 +31,10 @@ public class Hooks {
   /** Closes down driver once cucumber test has completed */
   @After
   public void tearDown(Scenario scenario) {
-    baseTest.tearDown();
-    LOG.info("Finished scenario: {}", scenario.getName());
+    try {
+      baseTest.tearDown();
+    } finally {
+      LOG.info("Finished scenario: {}", scenario.getName());
+    }
   }
 }
