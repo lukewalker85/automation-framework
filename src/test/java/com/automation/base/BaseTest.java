@@ -1,14 +1,8 @@
 package com.automation.base;
 
 import com.automation.utils.ConfigReader;
-import io.github.bonigarcia.wdm.WebDriverManager;
+import com.automation.utils.DriverFactory;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterMethod;
@@ -37,40 +31,8 @@ public class BaseTest {
   public void setUp() {
     String configuredBrowser = configReader.get("BROWSER");
     String browser = configuredBrowser == null ? "firefox" : configuredBrowser.toLowerCase();
-    WebDriver webDriver;
-
-    LOG.info("Starting browser: {} (Headless: {})", browser, configReader.get("HEADLESS"));
-    switch (browser) {
-      case "chrome":
-        WebDriverManager.chromedriver().setup();
-        ChromeOptions chromeOptions = new ChromeOptions();
-        if (isHeadless()) {
-          chromeOptions.addArguments("--headless");
-        }
-        webDriver = new ChromeDriver(chromeOptions);
-        break;
-
-      case "edge":
-        WebDriverManager.edgedriver().setup();
-        EdgeOptions edgeOptions = new EdgeOptions();
-        if (isHeadless()) {
-          edgeOptions.addArguments("--headless");
-        }
-        webDriver = new EdgeDriver(edgeOptions);
-        break;
-      case "firefox":
-      default:
-        WebDriverManager.firefoxdriver().setup();
-        FirefoxOptions firefoxOptions = new FirefoxOptions();
-        if (isHeadless()) {
-          firefoxOptions.addArguments("--headless");
-        }
-        webDriver = new FirefoxDriver(firefoxOptions);
-        break;
-    }
-
-    webDriver.manage().window().maximize();
-    driver.set(webDriver);
+    boolean headless = "true".equalsIgnoreCase(configReader.get("HEADLESS"));
+    driver.set(DriverFactory.createDriver(browser, headless));
   }
 
   /** Closes down driver once test has completed */
@@ -85,10 +47,5 @@ public class BaseTest {
     } finally {
       driver.remove();
     }
-  }
-
-  /** Checks headless argument for browser */
-  public boolean isHeadless() {
-    return "true".equalsIgnoreCase(configReader.get("HEADLESS"));
   }
 }
