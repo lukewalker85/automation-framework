@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-04-25
+
+### Added
+
+- SLF4J and Log4j2 structured logging across all framework classes
+- Configurable log level via config.properties or LOG_LEVEL environment variable
+- JUnit 5 unit tests for ConfigReader
+- TestNG DataProvider driven login tests with LoginScenario record
+- Spotless code formatting with Google Java Format
+- Logging section in README
+
+### Changed
+
+- ConfigReader refactored for dependency injection and testability
+- Login error messages centralised in LoginErrorMessages constants class
+- Integration tests renamed to *IT convention
+- Surefire runs JUnit 5 unit tests, Failsafe runs TestNG integration tests
+
+### Fixed
+
+- Log4j2 reconfigured at runtime to apply configured log level
+- Driver ThreadLocal cleanup runs even if quit() throws
+- BROWSER config defaults to Firefox when missing
+
 ## [0.3.0] - 2026-04-06
 
 ### Added
@@ -30,6 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial tagged release.
 
-[Unreleased]: https://github.com/lukewalker85/automation-framework/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/lukewalker85/automation-framework/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/lukewalker85/automation-framework/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/lukewalker85/automation-framework/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/lukewalker85/automation-framework/commit/005d7ec
