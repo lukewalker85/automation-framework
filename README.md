@@ -58,6 +58,18 @@ All environment configuration lives in `src/test/resources/config.properties`.
 > **Note:** In production, sensitive values such as passwords and URLs should
 > be stored as environment variables or a secrets manager, never committed to Git.
 
+## Logging
+
+SLF4J is used as the logging API, with Log4j2 as the implementation.
+
+Log level can be configured by updating `src/test/resources/config.properties` or by passing in the environment variable when running `mvn verify`
+e.g. `LOG_LEVEL=WARN mvn verify`. The default level is `INFO`.
+
+Logs are written to both the console and to files in `target/logs/`, which rotate at 10 MB.
+
+Valid log levels are DEBUG, INFO, WARN, and ERROR.
+
+
 ## Code Formatting
 
 Code formatting is enforced by [Spotless](https://github.com/diffplug/spotless)
@@ -147,7 +159,7 @@ Pull request workflow:
 - [x] Cucumber BDD feature files and step definitions
 - [x] TestNG DataProvider driven tests
 - [ ] Screenshot on failure
-- [ ] Log4j logging
+- [x] Log4j logging
 - [ ] WireMock IAM API mocking with REST Assured
 - [ ] Add CartPage and cart tests
 - [ ] Add CheckoutPage and end to end checkout tests

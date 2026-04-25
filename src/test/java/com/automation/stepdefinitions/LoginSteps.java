@@ -9,9 +9,16 @@ import com.automation.utils.ConfigReader;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+/**
+ * Cucumber step definitions for login feature scenarios. Maps Gherkin steps to actions on the
+ * LoginPage.
+ */
 public class LoginSteps {
 
+  private static final Logger LOG = LoggerFactory.getLogger(LoginSteps.class);
   private LoginPage loginPage;
   private final BaseTest baseTest;
   private final ConfigReader config;
@@ -21,9 +28,12 @@ public class LoginSteps {
     this.config = baseTest.getConfigReader();
   }
 
+  /** Navigates to the SauceDemo login page and initialises the page object. */
   @Given("the user is on the login page")
   public void theUserIsOnTheLoginPage() {
-    baseTest.getDriver().get(config.get("BASE_URL"));
+    String baseUrl = config.get("BASE_URL");
+    LOG.info("Navigating to base page. URL: {}", baseUrl);
+    baseTest.getDriver().get(baseUrl);
     loginPage = new LoginPage(baseTest.getDriver());
   }
 
@@ -44,17 +54,22 @@ public class LoginSteps {
 
   @Then("they should be redirected to the inventory page")
   public void theyShouldBeRedirectedToTheInventoryPage() {
-    assertThat(baseTest.getDriver().getCurrentUrl())
-        .isEqualTo(config.get("BASE_URL") + config.get("INVENTORY_PATH"));
+    String currentUrl = baseTest.getDriver().getCurrentUrl();
+    LOG.info("Current URL: {}", currentUrl);
+    assertThat(currentUrl).isEqualTo(config.get("BASE_URL") + config.get("INVENTORY_PATH"));
   }
 
   @Then("they should see a locked out error message")
   public void theyShouldSeeALockedOutMessage() {
-    assertThat(loginPage.getErrorMessage()).contains(LoginErrorMessages.LOCKED_OUT);
+    String errorMessage = loginPage.getErrorMessage();
+    LOG.info("Error message found: {}", errorMessage);
+    assertThat(errorMessage).contains(LoginErrorMessages.LOCKED_OUT);
   }
 
   @Then("they should see an invalid credentials error message")
   public void theyShouldSeeAnInvalidCredentialsErrorMessage() {
-    assertThat(loginPage.getErrorMessage()).contains(LoginErrorMessages.INVALID_CREDENTIALS);
+    String errorMessage = loginPage.getErrorMessage();
+    LOG.info("Error message found: {}", errorMessage);
+    assertThat(errorMessage).contains(LoginErrorMessages.INVALID_CREDENTIALS);
   }
 }

@@ -6,7 +6,15 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.function.Function;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+/**
+ * Reads configuration from a classpath properties file with environment variable overrides.
+ * Environment variables take priority over file values, enabling CI and local configuration without
+ * code changes.
+ */
 public class ConfigReader {
 
   private final Properties properties;
@@ -26,6 +34,8 @@ public class ConfigReader {
   public ConfigReader(String classpathResource) {
     this(loadFromClasspath(classpathResource), System::getenv);
     applyLogLevel();
+    Logger log = LoggerFactory.getLogger(ConfigReader.class);
+    log.info("Config loaded - log level: {}", System.getProperty("logLevel"));
   }
 
   private static Properties loadFromClasspath(String resource) {
@@ -69,5 +79,6 @@ public class ConfigReader {
     }
     logLevel = logLevel.toUpperCase(Locale.ROOT);
     System.setProperty("logLevel", logLevel);
+    Configurator.reconfigure();
   }
 }
