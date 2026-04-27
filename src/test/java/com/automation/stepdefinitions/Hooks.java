@@ -38,13 +38,18 @@ public class Hooks {
   /** Takes screenshot on test failure and closes down driver once cucumber test has completed */
   @After
   public void tearDown(Scenario scenario) {
-    if (scenario.isFailed()) {
-      captureScreenshot(scenario.getName());
-    }
     try {
-      baseTest.tearDown();
+      if (scenario.isFailed()) {
+        captureScreenshot(scenario.getName());
+      }
+    } catch (RuntimeException e) {
+      LOG.error("Failed to capture screenshot for scenario: {}", scenario.getName(), e);
     } finally {
-      LOG.info("Finished scenario: {}", scenario.getName());
+      try {
+        baseTest.tearDown();
+      } finally {
+        LOG.info("Finished scenario: {}", scenario.getName());
+      }
     }
   }
 
@@ -54,11 +59,15 @@ public class Hooks {
       LOG.warn("Driver is null, skipping screenshot");
       return;
     }
+    if (!(driver instanceof TakesScreenshot)) {
+      LOG.warn("Driver does not support screenshots, skipping screenshot");
+      return;
+    }
     byte[] screenshotBytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     String filename = ScreenshotStore.buildFileName(scenarioName);
     try {
       screenshotStore.storeScreenshot(screenshotBytes, filename);
-    } catch (IOException e) {
+    } catch (IOException | RuntimeException e) {
       LOG.error("Failed to save screenshot: {}", filename, e);
     }
   }

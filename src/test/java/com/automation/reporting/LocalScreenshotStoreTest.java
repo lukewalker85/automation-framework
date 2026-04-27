@@ -1,6 +1,7 @@
 package com.automation.reporting;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -19,5 +20,12 @@ public class LocalScreenshotStoreTest {
     Path expectedFile = tempDir.resolve(filename);
     assertThat(expectedFile).exists();
     assertThat(expectedFile).hasBinaryContent(fakeImage);
+  }
+
+  @Test
+  void shouldNotAllowTraversalFilename(@TempDir Path tempDir) throws IOException {
+    LocalScreenshotStore store = new LocalScreenshotStore(tempDir);
+    assertThatThrownBy(() -> store.storeScreenshot(new byte[1], "../../evil.png"))
+        .isInstanceOf(IOException.class);
   }
 }

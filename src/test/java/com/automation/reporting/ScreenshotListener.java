@@ -41,11 +41,16 @@ public class ScreenshotListener implements ITestListener {
       return;
     }
 
-    byte[] screenshotBytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+    if (!(driver instanceof TakesScreenshot takesScreenshot)) {
+      LOG.warn("Driver does not support screenshots");
+      return;
+    }
+
     String filename = ScreenshotStore.buildFileName(result.getName());
     try {
+      byte[] screenshotBytes = takesScreenshot.getScreenshotAs(OutputType.BYTES);
       screenshotStore.storeScreenshot(screenshotBytes, filename);
-    } catch (IOException e) {
+    } catch (IOException | RuntimeException e) {
       LOG.error("Failed to save screenshot: {}", filename, e);
     }
   }

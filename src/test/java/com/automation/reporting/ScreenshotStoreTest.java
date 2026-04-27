@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-/** Unit tests for ScreenshotListener */
-public class ScreenshotListenerTest {
+/** Unit tests for ScreenshotStore */
+public class ScreenshotStoreTest {
 
   @Test
   void shouldBuildFileName() {
@@ -14,7 +14,7 @@ public class ScreenshotListenerTest {
     assertThat(filename).startsWith("successfulLoginTest_");
     assertThat(filename).endsWith(".png");
     assertThat(filename)
-        .matches("successfulLoginTest_\\d{4}-\\d{2}-\\d{2}_\\d{2}-\\d{2}-\\d{2}-\\d{3}.png");
+        .matches("successfulLoginTest_\\d{4}-\\d{2}-\\d{2}_\\d{2}-\\d{2}-\\d{2}-\\d{3}\\.png");
   }
 
   @Test
@@ -27,9 +27,9 @@ public class ScreenshotListenerTest {
 
   @Test
   void shouldReplaceIllegalCharactersInFileName() {
-    String filename = ScreenshotStore.buildFileName("myTest[0](foo:bar)");
+    String filename = ScreenshotStore.buildFileName("myTest[0](foo:bar)/baz\\qux");
     assertThat(filename).startsWith("myTest_0__foo_bar_");
     assertThat(filename).endsWith(".png");
-    assertThat(filename).doesNotContain("[", "]", "(", ")", ":");
+    assertThat(filename).doesNotContain("[", "]", "(", ")", ":", "/", "\\");
   }
 }

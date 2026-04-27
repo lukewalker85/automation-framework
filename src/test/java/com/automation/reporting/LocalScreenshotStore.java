@@ -3,6 +3,7 @@ package com.automation.reporting;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,8 +22,13 @@ public class LocalScreenshotStore implements ScreenshotStore {
   /** {@inheritDoc} */
   @Override
   public void storeScreenshot(byte[] bytes, String filename) throws IOException {
+    Objects.requireNonNull(bytes, "bytes must not be null");
+    Objects.requireNonNull(filename, "filename must not be null");
     Files.createDirectories(outputDir);
-    Path filePath = outputDir.resolve(filename);
+    Path filePath = outputDir.resolve(filename).normalize();
+    if (!filePath.startsWith(outputDir.normalize())) {
+      throw new IOException("Path traversal detected: " + filename);
+    }
     Files.write(filePath, bytes);
     LOG.info("Screenshot saved: {}", filePath);
   }
