@@ -2,13 +2,11 @@ package com.automation.stepdefinitions;
 
 import com.automation.base.BaseTest;
 import com.automation.reporting.LocalScreenshotStore;
-import com.automation.reporting.ScreenshotListener;
 import com.automation.reporting.ScreenshotStore;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import java.io.IOException;
-import java.nio.file.Path;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -22,7 +20,7 @@ import org.slf4j.LoggerFactory;
 public class Hooks {
 
   private final ScreenshotStore screenshotStore =
-      new LocalScreenshotStore(Path.of("target/screenshots"));
+      new LocalScreenshotStore(LocalScreenshotStore.DEFAULT_DIR);
   private static final Logger LOG = LoggerFactory.getLogger(Hooks.class);
   private final BaseTest baseTest;
 
@@ -57,7 +55,7 @@ public class Hooks {
       return;
     }
     byte[] screenshotBytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-    String filename = ScreenshotListener.buildFileName(scenarioName);
+    String filename = ScreenshotStore.buildFileName(scenarioName);
     try {
       screenshotStore.storeScreenshot(screenshotBytes, filename);
     } catch (IOException e) {

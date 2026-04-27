@@ -2,9 +2,6 @@ package com.automation.reporting;
 
 import com.automation.base.BaseTest;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -21,20 +18,12 @@ public class ScreenshotListener implements ITestListener {
 
   /** No-arg constructor for TestNG registration. Saves to target/screenshots. */
   public ScreenshotListener() {
-    this(new LocalScreenshotStore(Path.of("target/screenshots")));
+    this(new LocalScreenshotStore(LocalScreenshotStore.DEFAULT_DIR));
   }
 
   /** Constructor for dependency injection in tests. */
   public ScreenshotListener(ScreenshotStore screenshotStore) {
     this.screenshotStore = screenshotStore;
-  }
-
-  /** Builds filename for screenshot on failure */
-  public static String buildFileName(String testName) {
-    return testName.replaceAll("[^a-zA-Z0-9\\-]", "_")
-        + "_"
-        + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss-SSS"))
-        + ".png";
   }
 
   @Override
@@ -53,7 +42,7 @@ public class ScreenshotListener implements ITestListener {
     }
 
     byte[] screenshotBytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-    String filename = buildFileName(result.getName());
+    String filename = ScreenshotStore.buildFileName(result.getName());
     try {
       screenshotStore.storeScreenshot(screenshotBytes, filename);
     } catch (IOException e) {

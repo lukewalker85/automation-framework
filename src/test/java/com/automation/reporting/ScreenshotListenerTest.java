@@ -1,6 +1,7 @@
 package com.automation.reporting;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 
 /** Unit tests for ScreenshotListener */
@@ -9,7 +10,7 @@ public class ScreenshotListenerTest {
   @Test
   void shouldBuildFileName() {
     String testName = "successfulLoginTest";
-    String filename = ScreenshotListener.buildFileName(testName);
+    String filename = ScreenshotStore.buildFileName(testName);
     assertThat(filename).startsWith("successfulLoginTest_");
     assertThat(filename).endsWith(".png");
     assertThat(filename)
@@ -18,7 +19,7 @@ public class ScreenshotListenerTest {
 
   @Test
   void shouldReplaceSpacesInFileName() {
-    String filename = ScreenshotListener.buildFileName("Successful login");
+    String filename = ScreenshotStore.buildFileName("Successful login");
     assertThat(filename).startsWith("Successful_login_");
     assertThat(filename).doesNotContain(" ");
     assertThat(filename).endsWith(".png");
@@ -26,7 +27,7 @@ public class ScreenshotListenerTest {
 
   @Test
   void shouldReplaceIllegalCharactersInFileName() {
-    String filename = ScreenshotListener.buildFileName("myTest[0](foo:bar)");
+    String filename = ScreenshotStore.buildFileName("myTest[0](foo:bar)");
     assertThat(filename).startsWith("myTest_0__foo_bar_");
     assertThat(filename).endsWith(".png");
     assertThat(filename).doesNotContain("[", "]", "(", ")", ":");

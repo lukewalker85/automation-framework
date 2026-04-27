@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 /** Saves screenshot bytes to the local filesystem. Implements {@link ScreenshotStore}. */
 public class LocalScreenshotStore implements ScreenshotStore {
 
+  public static final Path DEFAULT_DIR = Path.of("target/screenshots");
   private static final Logger LOG = LoggerFactory.getLogger(LocalScreenshotStore.class);
   private final Path outputDir;
 
