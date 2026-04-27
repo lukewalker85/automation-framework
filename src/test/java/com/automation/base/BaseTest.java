@@ -1,5 +1,6 @@
 package com.automation.base;
 
+import com.automation.reporting.ScreenshotListener;
 import com.automation.utils.ConfigReader;
 import com.automation.utils.DriverFactory;
 import org.openqa.selenium.WebDriver;
@@ -7,11 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 
 /**
  * Base class for all test classes. Manages the WebDriver lifecycle and provides access to shared
  * configuration.
  */
+@Listeners(ScreenshotListener.class)
 public class BaseTest {
 
   private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
