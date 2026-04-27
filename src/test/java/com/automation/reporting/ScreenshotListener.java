@@ -33,7 +33,7 @@ public class ScreenshotListener implements ITestListener {
   public static String buildFileName(String testName) {
     return testName.replaceAll("[^a-zA-Z0-9\\-]", "_")
         + "_"
-        + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss"))
+        + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss-SSS"))
         + ".png";
   }
 

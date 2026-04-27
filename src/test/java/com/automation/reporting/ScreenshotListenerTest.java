@@ -1,10 +1,9 @@
 package com.automation.reporting;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.jupiter.api.Test;
 
-/** Unit tests for ScreenshotListenerTest */
+/** Unit tests for ScreenshotListener */
 public class ScreenshotListenerTest {
 
   @Test
@@ -14,7 +13,7 @@ public class ScreenshotListenerTest {
     assertThat(filename).startsWith("successfulLoginTest_");
     assertThat(filename).endsWith(".png");
     assertThat(filename)
-        .matches("successfulLoginTest_\\d{4}-\\d{2}-\\d{2}_\\d{2}-\\d{2}-\\d{2}\\.png");
+        .matches("successfulLoginTest_\\d{4}-\\d{2}-\\d{2}_\\d{2}-\\d{2}-\\d{2}-\\d{3}.png");
   }
 
   @Test
