@@ -24,4 +24,12 @@ public class ScreenshotListenerTest {
     assertThat(filename).doesNotContain(" ");
     assertThat(filename).endsWith(".png");
   }
+
+  @Test
+  void shouldReplaceIllegalCharactersInFileName() {
+    String filename = ScreenshotListener.buildFileName("myTest[0](foo:bar)");
+    assertThat(filename).startsWith("myTest_0__foo_bar_");
+    assertThat(filename).endsWith(".png");
+    assertThat(filename).doesNotContain("[", "]", "(", ")", ":");
+  }
 }

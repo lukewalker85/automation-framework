@@ -31,7 +31,7 @@ public class ScreenshotListener implements ITestListener {
 
   /** Builds filename for screenshot on failure */
   public static String buildFileName(String testName) {
-    return testName.replace(" ", "_")
+    return testName.replaceAll("[^a-zA-Z0-9\\-]", "_")
         + "_"
         + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss"))
         + ".png";
