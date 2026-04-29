@@ -1,9 +1,15 @@
 package com.automation.stepdefinitions;
 
 import com.automation.base.BaseTest;
+import com.automation.reporting.LocalScreenshotStore;
+import com.automation.reporting.ScreenshotStore;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
+import java.io.IOException;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,8 +19,9 @@ import org.slf4j.LoggerFactory;
  */
 public class Hooks {
 
+  private final ScreenshotStore screenshotStore =
+      new LocalScreenshotStore(LocalScreenshotStore.DEFAULT_DIR);
   private static final Logger LOG = LoggerFactory.getLogger(Hooks.class);
-
   private final BaseTest baseTest;
 
   public Hooks(BaseTest baseTest) {
@@ -28,13 +35,40 @@ public class Hooks {
     baseTest.setUp();
   }
 
-  /** Closes down driver once cucumber test has completed */
+  /** Takes screenshot on test failure and closes down driver once cucumber test has completed */
   @After
   public void tearDown(Scenario scenario) {
     try {
-      baseTest.tearDown();
+      if (scenario.isFailed()) {
+        captureScreenshot(scenario.getName());
+      }
+    } catch (RuntimeException e) {
+      LOG.error("Failed to capture screenshot for scenario: {}", scenario.getName(), e);
     } finally {
-      LOG.info("Finished scenario: {}", scenario.getName());
+      try {
+        baseTest.tearDown();
+      } finally {
+        LOG.info("Finished scenario: {}", scenario.getName());
+      }
+    }
+  }
+
+  private void captureScreenshot(String scenarioName) {
+    WebDriver driver = baseTest.getDriver();
+    if (driver == null) {
+      LOG.warn("Driver is null, skipping screenshot");
+      return;
+    }
+    if (!(driver instanceof TakesScreenshot)) {
+      LOG.warn("Driver does not support screenshots, skipping screenshot");
+      return;
+    }
+    byte[] screenshotBytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+    String filename = ScreenshotStore.buildFileName(scenarioName);
+    try {
+      screenshotStore.storeScreenshot(screenshotBytes, filename);
+    } catch (IOException | RuntimeException e) {
+      LOG.error("Failed to save screenshot: {}", filename, e);
     }
   }
 }
