@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-04-28
+
+### Added
+
+- Screenshot capture on test failure for both TestNG and Cucumber tests
+- ScreenshotStore pluggable interface for future storage backends (e.g. S3)
+- LocalScreenshotStore saves screenshots to target/screenshots/
+- ScreenshotListener registered via @Listeners for automatic TestNG coverage
+- Cucumber screenshot capture via Hooks on scenario failure
+- Path traversal protection in screenshot storage
+- Filename sanitisation replacing illegal filesystem characters
+- Millisecond precision timestamps to prevent filename collisions
+- Unit tests for LocalScreenshotStore, ScreenshotStore filename building
+- DriverFactory extracted from BaseTest as a pure factory class
+- Unit test for DriverFactory unsupported browser exception
+
+### Changed
+
+- BaseTest delegates browser creation to DriverFactory
+- Hooks refactored with extracted captureScreenshot method
+- Screenshot capture uses broad exception handling to prevent resource leaks
+
 ## [0.4.0] - 2026-04-25
 
 ### Added
@@ -54,7 +76,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial tagged release.
 
-[Unreleased]: https://github.com/lukewalker85/automation-framework/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/lukewalker85/automation-framework/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/lukewalker85/automation-framework/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/lukewalker85/automation-framework/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/lukewalker85/automation-framework/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/lukewalker85/automation-framework/commit/005d7ec
