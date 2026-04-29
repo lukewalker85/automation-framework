@@ -54,9 +54,7 @@ public class LoginSteps {
 
   @Then("they should be redirected to the inventory page")
   public void theyShouldBeRedirectedToTheInventoryPage() {
-    String currentUrl = baseTest.getDriver().getCurrentUrl();
-    LOG.info("Current URL: {}", currentUrl);
-    assertThat(currentUrl).isEqualTo(config.get("BASE_URL") + config.get("INVENTORY_PATH"));
+    loginPage.waitForUrl(config.get("BASE_URL") + config.get("INVENTORY_PATH"));
   }
 
   @Then("they should see a locked out error message")
