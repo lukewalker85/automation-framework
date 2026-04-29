@@ -158,7 +158,7 @@ Pull request workflow:
 ## Roadmap
 - [x] Cucumber BDD feature files and step definitions
 - [x] TestNG DataProvider driven tests
-- [ ] Screenshot on failure
+- [x] Screenshot on failure
 - [x] Log4j logging
 - [ ] WireMock IAM API mocking with REST Assured
 - [ ] Add CartPage and cart tests
