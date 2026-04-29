@@ -26,7 +26,9 @@ public class LoginIT extends BaseTest {
     loginPage
         .get()
         .login(getConfigReader().get("STANDARD_USER"), getConfigReader().get("PASSWORD"));
-    loginPage.get().waitForUrl(getConfigReader().get("INVENTORY_PATH"));
+    loginPage
+        .get()
+        .waitForUrl(getConfigReader().get("BASE_URL") + getConfigReader().get("INVENTORY_PATH"));
   }
 
   @Test(dataProvider = "failedLoginData")

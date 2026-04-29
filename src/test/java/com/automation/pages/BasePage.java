@@ -2,6 +2,7 @@ package com.automation.pages;
 
 import java.time.Duration;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -53,16 +54,16 @@ public class BasePage {
     LOG.debug("Checking if element is displayed: {}", element);
     try {
       wait.until(ExpectedConditions.visibilityOf(element));
-    } catch (TimeoutException e) {
+    } catch (TimeoutException | StaleElementReferenceException e) {
       return false;
     }
     return true;
   }
 
-  /** Waits for URL to contain expected string */
-  public void waitForUrl(String url) {
-    LOG.debug("Waiting for URL: {}", url);
-    wait.until(ExpectedConditions.urlContains(url));
+  /** Waits for URL to exactly match the expected URL. */
+  public void waitForUrl(String expectedUrl) {
+    LOG.debug("Waiting for URL to be: {}", expectedUrl);
+    wait.until(ExpectedConditions.urlToBe(expectedUrl));
   }
 
   /** Waits for dropdown and selects option by visible text */
