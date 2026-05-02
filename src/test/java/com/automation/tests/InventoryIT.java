@@ -35,7 +35,7 @@ public class InventoryIT extends BaseTest {
   @Test
   public void theCartBadgeDisplaysTheNumberOfItemsInIt() {
     inventoryPage.get().clickAddToCart(ADD_TO_CART_PRODUCT);
-    assertThat(inventoryPage.get().getCartBadgeNumber()).isNotZero();
+    assertThat(inventoryPage.get().getCartBadgeNumber()).isEqualTo(1);
   }
 
   @Test(dataProvider = "sortOptionsData")

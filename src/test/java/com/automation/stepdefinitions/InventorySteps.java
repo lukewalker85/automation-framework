@@ -6,8 +6,6 @@ import com.automation.base.BaseTest;
 import com.automation.pages.InventoryPage;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Cucumber step definitions for inventory feature scenarios. Maps Gherkin steps to actions on the
@@ -15,7 +13,6 @@ import org.slf4j.LoggerFactory;
  */
 public class InventorySteps {
 
-  private static final Logger LOG = LoggerFactory.getLogger(InventorySteps.class);
   private final BaseTest baseTest;
   private InventoryPage inventoryPage;
 
@@ -53,7 +50,7 @@ public class InventorySteps {
   /** Asserts the cart badge number is not zero */
   @Then("the cart badge displays the number of items in it")
   public void theCartBadgeDisplaysTheNumberOfItemsInIt() {
-    assertThat(getInventoryPage().getCartBadgeNumber()).isNotZero();
+    assertThat(getInventoryPage().getCartBadgeNumber()).isEqualTo(1);
   }
 
   private InventoryPage getInventoryPage() {

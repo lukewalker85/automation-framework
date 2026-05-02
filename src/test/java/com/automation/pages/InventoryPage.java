@@ -47,21 +47,27 @@ public class InventoryPage extends BasePage {
   public String getFirstItemName() {
     LOG.debug("Getting first item name");
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("inventory_item_name")));
+    if (itemNameList.isEmpty()) {
+      throw new IllegalStateException("No inventory items are displayed.");
+    }
     return itemNameList.get(0).getText();
   }
 
   /** Gets name of last displayed item */
   public String getLastItemName() {
     LOG.debug("Getting last item name");
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("inventory_item_name")));
+    if (itemNameList.isEmpty()) {
+      throw new IllegalStateException("No inventory items are displayed.");
+    }
     return itemNameList.get(itemNameList.size() - 1).getText();
   }
 
   /** Clicks add to cart for the provided item name */
   public void clickAddToCart(String itemName) {
     LOG.debug("Clicking add to cart for item: {}", itemName);
-    String addToCartId = "add-to-cart-" + itemName.toLowerCase().replaceAll(" ", "-");
-    wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(addToCartId)));
-    driver.findElement(By.id(addToCartId)).click();
+    String addToCartId = "add-to-cart-" + itemName.toLowerCase().replace(" ", "-");
+    wait.until(ExpectedConditions.elementToBeClickable(By.id(addToCartId))).click();
   }
 
   /** Gets the number of items in the cart */
