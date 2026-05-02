@@ -4,11 +4,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.automation.base.BaseTest;
 import com.automation.pages.LoginPage;
+import com.automation.pages.SidebarPage;
 import com.automation.testdata.LoginErrorMessages;
 import com.automation.utils.ConfigReader;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import java.time.Duration;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +26,7 @@ public class LoginSteps {
   private LoginPage loginPage;
   private final BaseTest baseTest;
   private final ConfigReader config;
+  private SidebarPage sidebarPage;
 
   public LoginSteps(BaseTest baseTest) {
     this.baseTest = baseTest;
@@ -52,6 +57,18 @@ public class LoginSteps {
     loginPage.login(config.get("STANDARD_USER"), config.get("INVALID_PASSWORD"));
   }
 
+  @When("the logout sidebar link is clicked")
+  public void theLogoutSidebarLinkIsClicked() {
+    getSidebarPage().logoutUsingSidebar();
+  }
+
+  @When("they navigate to the inventory URL")
+  public void theyNavigateToTheInventoryURL() {
+    String inventoryURL = config.get("BASE_URL") + config.get("INVENTORY_PATH");
+    LOG.info("Navigating directly to inventory URL: {}", inventoryURL);
+    baseTest.getDriver().get(inventoryURL);
+  }
+
   @Then("they should be redirected to the inventory page")
   public void theyShouldBeRedirectedToTheInventoryPage() {
     loginPage.waitForUrl(config.get("BASE_URL") + config.get("INVENTORY_PATH"));
@@ -69,5 +86,20 @@ public class LoginSteps {
     String errorMessage = loginPage.getErrorMessage();
     LOG.info("Error message found: {}", errorMessage);
     assertThat(errorMessage).contains(LoginErrorMessages.INVALID_CREDENTIALS);
+  }
+
+  @Then("they should be on the login page")
+  public void theyShouldBeOnTheLoginPage() {
+    String expectedUrl = config.get("BASE_URL");
+    LOG.info("Waiting for login page URL: {}", expectedUrl);
+    new WebDriverWait(baseTest.getDriver(), Duration.ofSeconds(10))
+        .until(ExpectedConditions.urlToBe(expectedUrl));
+  }
+
+  private SidebarPage getSidebarPage() {
+    if (sidebarPage == null) {
+      sidebarPage = new SidebarPage(baseTest.getDriver());
+    }
+    return sidebarPage;
   }
 }
