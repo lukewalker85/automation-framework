@@ -6,10 +6,15 @@
             <class name="com.automation.tests.LoginIT"/>
         </classes>
     </test>
+    <test name="InventoryTests">
+        <classes>
+            <class name="com.automation.tests.InventoryIT"/>
+        </classes>
+    </test>
 
     <test name="CucumberTests">
         <classes>
-            <class name="com.automation.runners.LoginRunnerIT"/>
+            <class name="com.automation.runners.CucumberRunnerIT"/>
         </classes>
     </test>
 
