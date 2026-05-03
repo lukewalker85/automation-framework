@@ -79,7 +79,7 @@ public class InventoryPage extends BasePage {
   /** Gets name of last displayed item */
   public String getLastItemName() {
     LOG.debug("Getting last item name");
-    wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("inventory_item_price")));
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("inventory_item_name")));
     if (itemNameList.isEmpty()) {
       throw new IllegalStateException("No inventory items are displayed.");
     }
