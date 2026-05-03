@@ -21,6 +21,9 @@ public class InventoryPage extends BasePage {
   @FindBy(className = "inventory_item_name")
   private List<WebElement> itemNameList;
 
+  @FindBy(className = "inventory_item_price")
+  private List<WebElement> itemPriceList;
+
   @FindBy(className = "shopping_cart_badge")
   private WebElement cartBadge;
 
@@ -53,10 +56,30 @@ public class InventoryPage extends BasePage {
     return itemNameList.get(0).getText();
   }
 
+  /** Gets price of first displayed item */
+  public String getFirstItemPrice() {
+    LOG.debug("Getting first item price");
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("inventory_item_price")));
+    if (itemPriceList.isEmpty()) {
+      throw new IllegalStateException("No inventory items are displayed.");
+    }
+    return itemPriceList.get(0).getText();
+  }
+
+  /** Clicks first items name */
+  public void clickFirstItemName() {
+    LOG.debug("Clicking first item name");
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("inventory_item_name")));
+    if (itemNameList.isEmpty()) {
+      throw new IllegalStateException("No inventory items are displayed.");
+    }
+    click(itemNameList.get(0));
+  }
+
   /** Gets name of last displayed item */
   public String getLastItemName() {
     LOG.debug("Getting last item name");
-    wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("inventory_item_name")));
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("inventory_item_price")));
     if (itemNameList.isEmpty()) {
       throw new IllegalStateException("No inventory items are displayed.");
     }
