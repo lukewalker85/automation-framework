@@ -71,7 +71,8 @@ public class LoginSteps {
 
   @Then("they should be redirected to the inventory page")
   public void theyShouldBeRedirectedToTheInventoryPage() {
-    loginPage.waitForUrl(config.get("BASE_URL") + config.get("INVENTORY_PATH"));
+    new WebDriverWait(baseTest.getDriver(), Duration.ofSeconds(10))
+        .until(ExpectedConditions.urlToBe(config.get("BASE_URL") + config.get("INVENTORY_PATH")));
   }
 
   @Then("they should see a locked out error message")
