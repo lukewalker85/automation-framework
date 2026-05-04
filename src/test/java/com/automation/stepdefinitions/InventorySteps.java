@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.automation.base.BaseTest;
 import com.automation.pages.InventoryPage;
+import com.automation.utils.ScenarioContext;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
@@ -14,12 +15,12 @@ import io.cucumber.java.en.When;
 public class InventorySteps {
 
   private final BaseTest baseTest;
+  private final ScenarioContext scenarioContext;
   private InventoryPage inventoryPage;
 
-  private static final String ADD_TO_CART_PRODUCT = "Sauce Labs Backpack";
-
-  public InventorySteps(BaseTest baseTest) {
+  public InventorySteps(BaseTest baseTest, ScenarioContext scenarioContext) {
     this.baseTest = baseTest;
+    this.scenarioContext = scenarioContext;
   }
 
   /** Selects the specified sort option from the filter dropdown. */
@@ -28,10 +29,17 @@ public class InventorySteps {
     getInventoryPage().selectSortOption(sortOption);
   }
 
-  /** Clicks to add item to cart */
-  @When("an item is added to the Cart")
-  public void anItemIsAddedToTheCart() {
-    getInventoryPage().clickAddToCart(ADD_TO_CART_PRODUCT);
+  /** Clicks to add the specified item to cart */
+  @When("the add to cart button is clicked for {string}")
+  public void anItemIsAddedToTheCart(String item) {
+    scenarioContext.setProductName(item);
+    getInventoryPage().clickAddToCart(item);
+  }
+
+  /** Clicks the cart icon */
+  @When("the cart icon is clicked")
+  public void theCartIconIsClicked() {
+    getInventoryPage().clickCartIcon();
   }
 
   /** Asserts the number of products displayed is not zero */
