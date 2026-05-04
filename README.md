@@ -161,8 +161,8 @@ Pull request workflow:
 - [x] Screenshot on failure
 - [x] Log4j logging
 - [ ] WireMock IAM API mocking with REST Assured
-- [ ] Add CartPage and cart tests
-- [ ] Add CheckoutPage and end to end checkout tests
+- [x] Add CartPage and cart tests
+- [x] Add CheckoutPage and end to end checkout tests
 - [ ] Add test grouping for smoke and regression suites
 - [ ] Allure test reporting
 - [x] Headless browser mode

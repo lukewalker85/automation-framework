@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-05-04
+
+### Added
+
+- InventoryPage page object with sort, cart badge, product count and navigation methods
+- ProductDetailsPage page object with product name, price and back button methods
+- CartPage page object with remove item, item list and checkout button methods
+- CheckoutStepOnePage, CheckoutStepTwoPage and CheckoutCompletePage page objects
+- ScenarioContext for sharing state between Cucumber step definition classes
+- Cucumber scenarios for inventory sorting, cart badge, product count
+- Cucumber scenarios for product detail navigation and data verification
+- Cucumber scenarios for logout and direct URL access
+- Cucumber scenarios for cart add, remove and item count
+- End-to-end checkout flow scenario with mid-flow product verification
+- Checkout form validation scenario for missing shipping information
+- Test user shipping details in config.properties
+
+### Changed
+
+- ProductDetailsSteps refactored to store product data in ScenarioContext
+- InventorySteps add-to-cart step parameterised with product name
+
 ## [0.5.0] - 2026-04-28
 
 ### Added
@@ -76,7 +98,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial tagged release.
 
-[Unreleased]: https://github.com/lukewalker85/automation-framework/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/lukewalker85/automation-framework/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/lukewalker85/automation-framework/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/lukewalker85/automation-framework/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/lukewalker85/automation-framework/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/lukewalker85/automation-framework/compare/v0.2.0...v0.3.0
