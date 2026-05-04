@@ -27,6 +27,9 @@ public class InventoryPage extends BasePage {
   @FindBy(className = "shopping_cart_badge")
   private WebElement cartBadge;
 
+  @FindBy(className = "shopping_cart_link")
+  private WebElement cartIcon;
+
   public InventoryPage(WebDriver driver) {
     super(driver);
     PageFactory.initElements(driver, this);
@@ -100,5 +103,10 @@ public class InventoryPage extends BasePage {
       return 0;
     }
     return Integer.parseInt(cartBadge.getText());
+  }
+
+  /** Clicks cart icon */
+  public void clickCartIcon() {
+    click(cartIcon);
   }
 }
