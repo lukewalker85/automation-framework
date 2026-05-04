@@ -4,6 +4,15 @@ package com.automation.utils;
 public class ScenarioContext {
 
   private String productName;
+  private String productPrice;
+
+  public String getProductPrice() {
+    return productPrice;
+  }
+
+  public void setProductPrice(String productPrice) {
+    this.productPrice = productPrice;
+  }
 
   public String getProductName() {
     return productName;

@@ -19,6 +19,9 @@ public class CartPage extends BasePage {
   @FindBy(className = "inventory_item_name")
   private List<WebElement> itemNameList;
 
+  @FindBy(id = "checkout")
+  private WebElement checkoutbtn;
+
   public CartPage(WebDriver driver) {
     super(driver);
     PageFactory.initElements(driver, this);
@@ -41,7 +44,14 @@ public class CartPage extends BasePage {
     return list;
   }
 
+  /** Waits for item list to be visable for positive interaction tests */
   public void waitForItemNames() {
     wait.until(ExpectedConditions.visibilityOfAllElements(itemNameList));
+  }
+
+  /** Clicks the checkout button */
+  public void clickCheckoutButton() {
+    LOG.info("Clicking checkout button");
+    click(checkoutbtn);
   }
 }

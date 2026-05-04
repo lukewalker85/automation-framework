@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.automation.base.BaseTest;
 import com.automation.pages.InventoryPage;
 import com.automation.pages.ProductDetailsPage;
+import com.automation.utils.ScenarioContext;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -20,50 +21,53 @@ public class ProductDetailsSteps {
   private static final Logger LOG = LoggerFactory.getLogger(ProductDetailsSteps.class);
 
   private final BaseTest baseTest;
+  private final ScenarioContext scenarioContext;
   private InventoryPage inventoryPage;
   private ProductDetailsPage productDetailsPage;
 
-  private String productName;
-  private String productPrice;
-
-  public ProductDetailsSteps(BaseTest baseTest) {
+  public ProductDetailsSteps(BaseTest baseTest, ScenarioContext scenarioContext) {
     this.baseTest = baseTest;
+    this.scenarioContext = scenarioContext;
   }
 
   @Given("a product is clicked")
-  public void a_product_is_clicked() {
+  public void aProductIsClicked() {
     getInventoryPage().clickFirstItemName();
   }
 
-  @When("the product name and price is stored")
-  public void the_product_name_and_price_is_stored() {
-    productName = getInventoryPage().getFirstItemName();
-    productPrice = getInventoryPage().getFirstItemPrice();
-    LOG.info("Stored values - Product name: {} Product Price: {}", productName, productPrice);
+  // Step must run before aProductIsClicked
+  @When("the product name and price are stored")
+  public void theProductNameAndPriceIsStored() {
+    scenarioContext.setProductName(getInventoryPage().getFirstItemName());
+    scenarioContext.setProductPrice(getInventoryPage().getFirstItemPrice());
+    LOG.info(
+        "Stored values - Product name: {} Product Price: {}",
+        scenarioContext.getProductName(),
+        scenarioContext.getProductPrice());
   }
 
   @When("the back button is clicked")
-  public void the_back_button_is_clicked() {
+  public void theBackButtonIsClicked() {
     getProductDetailsPage().clickBackButton();
   }
 
   @Then("they are on the details page for the clicked product")
-  public void they_are_on_the_details_page_for_the_clicked_product() {
+  public void theyAreOnTheDetailsPageForTheClickedProduct() {
     String productNameDetailsPage = getProductDetailsPage().getProductName();
     LOG.info("Product name found: {}", productNameDetailsPage);
-    assertThat(productNameDetailsPage).isEqualTo(productName);
+    assertThat(productNameDetailsPage).isEqualTo(scenarioContext.getProductName());
   }
 
   @Then("the product name and price match on details page")
-  public void the_product_name_and_price_match_on_details_page() {
+  public void theProductNameAndPriceMatchOnDetailsPage() {
     String productNameDetailsPage = getProductDetailsPage().getProductName();
     String productPriceDetailsPage = getProductDetailsPage().getProductPrice();
     LOG.info(
         "Values found on details page - Product name: {} Product Price: {}",
         productNameDetailsPage,
         productPriceDetailsPage);
-    assertThat(productNameDetailsPage).isEqualTo(productName);
-    assertThat(productPriceDetailsPage).isEqualTo(productPrice);
+    assertThat(productNameDetailsPage).isEqualTo(scenarioContext.getProductName());
+    assertThat(productPriceDetailsPage).isEqualTo(scenarioContext.getProductPrice());
   }
 
   private InventoryPage getInventoryPage() {
