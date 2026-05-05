@@ -1,4 +1,6 @@
 [![CI](https://github.com/lukewalker85/automation-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/lukewalker85/automation-framework/actions)
+[![Java](https://img.shields.io/badge/Java-21-ED8B00?style=flat&logo=openjdk&logoColor=white)](https://openjdk.org/projects/jdk/21/)
+[![License](https://img.shields.io/github/license/lukewalker85/automation-framework)](LICENSE)
 
 # Automation Framework
 
