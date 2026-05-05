@@ -14,7 +14,32 @@ Thanks for your interest in contributing to the Automation Framework.
 2. Run `mvn verify` to confirm all tests pass
 3. Create a feature branch from `master`
 
+## Test Credentials
+
+Test credentials are not stored in the repository. Set these environment 
+variables before running tests:
+
+- `STANDARD_USER`
+- `LOCKED_OUT_USER`
+- `PASSWORD`
+- `INVALID_PASSWORD`
+
+> `INVALID_PASSWORD` must be a value that does not match `PASSWORD` to ensure negative login tests fail for the correct reason.
+
+Example (Git Bash):
+
+```bash
+STANDARD_USER=<value> LOCKED_OUT_USER=<value> PASSWORD=<value> INVALID_PASSWORD=<value> mvn verify
+```
+
+Values are available on the [SauceDemo](https://www.saucedemo.com/) login page.
+
+In CI, these are passed via GitHub Secrets.
+
 ## Running Tests
+
+> **Note:** Test credentials must be set as environment variables before 
+> running tests. See [Test Credentials](#test-credentials) above.
 
 ```bash
 # Unit tests only
