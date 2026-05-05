@@ -2,9 +2,7 @@
 
 # Automation Framework
 
-A scalable test automation framework built from scratch using Java and Selenium 
-WebDriver, demonstrating industry best practices in test architecture, 
-BDD, API testing and CI/CD integration.
+A scalable test automation framework built from scratch using Java and Selenium WebDriver, demonstrating industry best practices in test architecture, BDD, API testing and CI/CD integration.
 
 ## Tech Stack
 
@@ -19,158 +17,81 @@ BDD, API testing and CI/CD integration.
 | AssertJ | Fluent assertions |
 | WebDriverManager | Automatic driver management |
 | Maven | Build and dependency management |
-| CodeRabbit | Automated AI code reviews on pull requests |
+| GitHub Actions | Continuous integration |
+| CodeRabbit | Automated AI code reviews |
 | JUnit 5 | Unit test execution |
+| SLF4J + Log4j2 | Structured logging |
 
 ## Project Structure
 
-```
+```text
 src/test/java/com/automation/
-├── api/              # REST Assured IAM API tests
-├── base/             # BaseTest - driver lifecycle management
+├── api/              # REST Assured API tests
+├── base/             # BaseTest — driver lifecycle management
 ├── pages/            # Page Object Model classes
+├── reporting/        # Screenshot capture and storage
 ├── runners/          # Cucumber test runners
 ├── stepdefinitions/  # Cucumber step definitions
-├── tests/            # TestNG test classes
-└── utils/            # ConfigReader and helper utilities
+├── testdata/         # Test data records and constants
+├── tests/            # TestNG integration tests
+└── utils/            # ConfigReader, DriverFactory, helpers
 src/test/resources/
 ├── features/         # Cucumber BDD feature files
-└── testdata/         # Data driven test data
+└── testdata/         # Data-driven test data
 ```
 
 ## Running Tests
 
 ```bash
-# Run unit tests only
+# Unit tests only
 mvn test
-# Run full test suite
+
+# Full suite (unit + integration)
 mvn verify
 
-# Run with specific browser (set in config.properties)
-# Options: firefox, chrome, edge
+# Specific browser
 BROWSER=chrome mvn verify
 ```
 
 ## Configuration
 
-All environment configuration lives in `src/test/resources/config.properties`.
+All environment configuration lives in `src/test/resources/config.properties`. Environment variables override file values for CI flexibility.
 
-> **Note:** In production, sensitive values such as passwords and URLs should
-> be stored as environment variables or a secrets manager, never committed to Git.
+> **Note:** In production, sensitive values such as passwords and URLs should be stored as environment variables or a secrets manager, never committed to Git.
 
 ## Logging
 
-SLF4J is used as the logging API, with Log4j2 as the implementation.
-
-Log level can be configured by updating `src/test/resources/config.properties` or by passing in the environment variable when running `mvn verify`
-e.g. `LOG_LEVEL=WARN mvn verify`. The default level is `INFO`.
-
-Logs are written to both the console and to files in `target/logs/`, which rotate at 10 MB.
-
-Valid log levels are DEBUG, INFO, WARN, and ERROR.
-
-
-## Code Formatting
-
-Code formatting is enforced by [Spotless](https://github.com/diffplug/spotless)
-using [Google Java Format](https://github.com/google/google-java-format).
-The `spotless:check` goal is bound to Maven's `validate` phase, so any
-formatting violation fails the build before tests run.
-
-### Before pushing
-
-Run the full build locally — this runs the formatting check, tests, and
-packaging in one command:
+SLF4J with Log4j2 provides structured logging across all framework classes. Log level is configurable via `config.properties` or the `LOG_LEVEL` environment variable:
 
 ```bash
-mvn verify
+LOG_LEVEL=DEBUG mvn verify
 ```
 
-### Fixing violations
+Logs are written to both the console and `target/logs/`, rotating at 10 MB. Valid levels: `DEBUG`, `INFO`, `WARN`, `ERROR`. Default: `INFO`.
 
-If Spotless reports violations, auto-fix them with:
+## Contributing
 
-```bash
-mvn spotless:apply
-```
+See [CONTRIBUTING.md](CONTRIBUTING.md) for branch naming, commit conventions, PR process, and code formatting requirements.
 
-Then re-run `mvn verify` to confirm everything is clean.
+## Licence
 
-### IDE integration (optional)
-
-For automatic formatting on save, install a Google Java Format plugin:
-- IntelliJ IDEA: [google-java-format plugin](https://plugins.jetbrains.com/plugin/8527-google-java-format)
-- VS Code: [Language Support for Java by Red Hat](https://marketplace.visualstudio.com/items?itemName=redhat.java) + google-java-format formatter
-
-### Git blame
-
-A mass reformat commit exists in the history (PR for #40). To make
-`git blame` skip it and show the original authoring commits, run
-this once per clone:
-
-```bash
-git config blame.ignoreRevsFile .git-blame-ignore-revs
-```
-
-GitHub's web UI respects `.git-blame-ignore-revs` automatically, so
-this is only needed for local blame.
-
-## Git Convention
-
-Commits follow the Conventional Commits standard:
-
-| Prefix | Meaning |
-|---|---|
-| `feat:` | New feature or class |
-| `fix:` | Bug fix |
-| `refactor:` | Code restructure without behaviour change |
-| `chore:` | Configuration or maintenance |
-
-From v0.2.0 onwards commits reference GitHub issue numbers e.g. `closes #4`.
-Earlier commits predate the project board setup.
-
-## Git Workflow
-
-From v0.2.0 onwards all changes are made on feature branches 
-and merged to master via Pull Requests.
-Earlier commits were made directly to master during initial setup.
-
-Branch naming convention:
-- `feature/` — new features e.g. `feature/1-cucumber-step-definitions`
-- `fix/` — bug fixes e.g. `fix/18-login-test-coverage`
-- `chore/` — maintenance e.g. `chore/update-dependencies`
-- `refactor/` - Code restructure without behaviour change 
-
-## Code Review
-
-All pull requests are reviewed by [CodeRabbit](https://coderabbit.ai) before merging.
-The review is configured in `.coderabbit.yaml` with an assertive profile
-that provides inline comments and a high-level summary on every PR.
-
-Pull request workflow:
-1. Create feature branch from master
-2. Push changes and open a pull request
-3. CI pipeline runs tests automatically
-4. CodeRabbit performs automated code review
-5. Address any feedback from review
-6. Merge to master once approved and CI is green
+This project is licensed under the MIT License — see [LICENSE](LICENSE) for details.
 
 ## Roadmap
+
 - [x] Cucumber BDD feature files and step definitions
-- [x] TestNG DataProvider driven tests
+- [x] TestNG DataProvider-driven tests
 - [x] Screenshot on failure
 - [x] Log4j logging
-- [ ] WireMock IAM API mocking with REST Assured
-- [x] Add CartPage and cart tests
-- [x] Add CheckoutPage and end to end checkout tests
-- [ ] Add test grouping for smoke and regression suites
-- [ ] Allure test reporting
 - [x] Headless browser mode
-- [ ] Environment switching
-- [ ] Cross browser test matrix
-- [ ] Docker + Selenium Grid
-- [ ] Jenkins CI/CD pipeline
 - [x] GitHub Actions workflow
-- [ ] Retry failed tests
-- [ ] Slack notifications
 - [x] AI code reviews on pull requests
+- [ ] Allure test reporting
+- [ ] REST Assured + WireMock API testing
+- [ ] CartPage and cart tests
+- [ ] CheckoutPage and end-to-end checkout tests
+- [ ] Test grouping for smoke and regression suites
+- [ ] Environment switching
+- [ ] Cross-browser test matrix
+- [ ] Docker + Selenium Grid
+- [ ] Retry failed tests
