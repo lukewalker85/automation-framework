@@ -42,7 +42,18 @@ src/test/resources/
 └── testdata/         # Data-driven test data
 ```
 
+## Configuration
+
+Non-sensitive configuration lives in `src/test/resources/config.properties`. 
+Environment variables override file values for CI flexibility.
+
+Test credentials are managed via environment variables (GitHub Secrets in CI). 
+See [CONTRIBUTING.md](CONTRIBUTING.md) for local setup instructions.
+
 ## Running Tests
+
+> **Note:** Test credentials must be set before running tests. 
+> See [Configuration](#configuration) above.
 
 ```bash
 # Unit tests only
@@ -54,12 +65,6 @@ mvn verify
 # Specific browser
 BROWSER=chrome mvn verify
 ```
-
-## Configuration
-
-All environment configuration lives in `src/test/resources/config.properties`. Environment variables override file values for CI flexibility.
-
-> **Note:** In production, sensitive values such as passwords and URLs should be stored as environment variables or a secrets manager, never committed to Git.
 
 ## Logging
 
