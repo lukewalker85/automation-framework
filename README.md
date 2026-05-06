@@ -78,7 +78,9 @@ Logs are written to both the console and `target/logs/`, rotating at 10 MB. Vali
 
 ## Reporting
 
-Allure generates interactive HTML test reports automatically during `mvn verify`. Reports include pass/fail results with screenshots captured on failure.
+> **Note:** If the build fails before integration tests run (e.g. compilation error), the report will not be generated.
+
+Allure generates interactive HTML test reports during `mvn verify`, after all tests have executed. Reports include pass/fail results with screenshots captured on failure.
 
 Reports are written to `target/site/allure-maven-plugin/`. To view the report in a browser:
 
