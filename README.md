@@ -76,6 +76,20 @@ LOG_LEVEL=DEBUG mvn verify
 
 Logs are written to both the console and `target/logs/`, rotating at 10 MB. Valid levels: `DEBUG`, `INFO`, `WARN`, `ERROR`. Default: `INFO`.
 
+## Reporting
+
+> **Note:** If the build fails before integration tests run (e.g. compilation error), the report will not be generated.
+
+Allure generates interactive HTML test reports during `mvn verify`, after all tests have executed. Reports include pass/fail results with screenshots captured on failure.
+
+Reports are written to `target/site/allure-maven-plugin/`. To view the report in a browser:
+
+```bash
+mvn allure:serve
+```
+
+This starts a temporary web server and opens the report automatically.
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for branch naming, commit conventions, PR process, and code formatting requirements.

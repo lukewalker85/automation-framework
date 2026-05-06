@@ -1,6 +1,8 @@
 package com.automation.reporting;
 
 import com.automation.base.BaseTest;
+import io.qameta.allure.Allure;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -47,8 +49,10 @@ public class ScreenshotListener implements ITestListener {
     }
 
     String filename = ScreenshotStore.buildFileName(result.getName());
+    byte[] screenshotBytes = takesScreenshot.getScreenshotAs(OutputType.BYTES);
+    Allure.addAttachment(
+        "Screenshot on failure", "image/png", new ByteArrayInputStream(screenshotBytes), ".png");
     try {
-      byte[] screenshotBytes = takesScreenshot.getScreenshotAs(OutputType.BYTES);
       screenshotStore.storeScreenshot(screenshotBytes, filename);
     } catch (IOException | RuntimeException e) {
       LOG.error("Failed to save screenshot: {}", filename, e);

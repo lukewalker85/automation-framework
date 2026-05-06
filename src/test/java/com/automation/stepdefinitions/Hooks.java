@@ -6,6 +6,8 @@ import com.automation.reporting.ScreenshotStore;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
+import io.qameta.allure.Allure;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -64,6 +66,8 @@ public class Hooks {
       return;
     }
     byte[] screenshotBytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+    Allure.addAttachment(
+        "Screenshot on failure", "image/png", new ByteArrayInputStream(screenshotBytes), ".png");
     String filename = ScreenshotStore.buildFileName(scenarioName);
     try {
       screenshotStore.storeScreenshot(screenshotBytes, filename);
