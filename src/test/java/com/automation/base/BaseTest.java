@@ -21,6 +21,10 @@ public class BaseTest {
   private static final Logger LOG = LoggerFactory.getLogger(BaseTest.class);
   private final ConfigReader configReader = new ConfigReader("config.properties");
 
+  public BaseTest() {
+    applyTimeout();
+  }
+
   public WebDriver getDriver() {
     return driver.get();
   }
@@ -50,5 +54,24 @@ public class BaseTest {
     } finally {
       driver.remove();
     }
+  }
+
+  /** Sets system property timeoutSeconds */
+  private void applyTimeout() {
+    String timeoutSeconds = configReader.get("WAIT_TIMEOUT_SECONDS");
+    if (timeoutSeconds == null) {
+      timeoutSeconds = "10";
+    }
+    try {
+      int parsed = Integer.parseInt(timeoutSeconds);
+      if (parsed <= 0) {
+        throw new IllegalArgumentException(
+            "WAIT_TIMEOUT_SECONDS must be a positive integer, got: " + timeoutSeconds);
+      }
+    } catch (NumberFormatException e) {
+      throw new IllegalArgumentException(
+          "WAIT_TIMEOUT_SECONDS is not a valid integer: '" + timeoutSeconds + "'", e);
+    }
+    System.setProperty("timeoutSeconds", timeoutSeconds);
   }
 }
