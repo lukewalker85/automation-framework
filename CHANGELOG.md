@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.1] - 2026-05-06
+
+### Added
+
+- 15 minute timeout to CI workflow
+- Maven dependency caching in CI
+- MIT License
+- CONTRIBUTING.md with branch naming, commit conventions, and PR process
+- README badges for Java version and license
+- Configurable explicit wait timeout via WAIT_TIMEOUT_SECONDS config or environment variable
+
+### Changed
+- Test credentials removed from config.properties and managed via environment variables (GitHub Secrets in CI)
+- README restructured to reference CONTRIBUTING.md for contributor-focused content
+- BasePage reads wait timeout from system property set by BaseTest
+
 ## [0.6.0] - 2026-05-04
 
 ### Added
@@ -98,7 +114,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial tagged release.
 
-[Unreleased]: https://github.com/lukewalker85/automation-framework/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/lukewalker85/automation-framework/compare/v0.6.1...HEAD
+[0.6.1]: https://github.com/lukewalker85/automation-framework/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/lukewalker85/automation-framework/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/lukewalker85/automation-framework/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/lukewalker85/automation-framework/compare/v0.3.0...v0.4.0
