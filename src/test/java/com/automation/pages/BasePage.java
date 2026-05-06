@@ -24,7 +24,16 @@ public class BasePage {
 
   public BasePage(WebDriver driver) {
     this.driver = driver;
-    this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    int timeoutSeconds;
+    try {
+      timeoutSeconds = Integer.parseInt(System.getProperty("timeoutSeconds", "10"));
+    } catch (NumberFormatException e) {
+      LOG.warn(
+          "Invalid timeoutSeconds system property '{}'; falling back to 10",
+          System.getProperty("timeoutSeconds"));
+      timeoutSeconds = 10;
+    }
+    this.wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds));
   }
 
   /** Waits for the element to be clickable, then clicks it. */
