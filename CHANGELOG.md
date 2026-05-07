@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-05-06
+
+### Added
+
+- Allure test reporting with interactive HTML reports
+- allure-testng and allure-cucumber7-jvm dependencies for test result capture
+- allure-maven plugin bound to post-integration-test phase for automatic report generation
+- Screenshot attachments on test failure in Allure reports (Hooks and ScreenshotListener)
+- allure.properties configuration file for results directory
+- Reporting section in README with generation and viewing instructions
+
+### Changed
+
+- ScreenshotListener.onTestFailure refactored to separate screenshot capture from file storage
+- CucumberRunnerIT plugin options updated to include AllureCucumber7Jvm
+- .gitignore updated to exclude .allure/ directory
+
 ## [0.6.1] - 2026-05-06
 
 ### Added
@@ -114,7 +131,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial tagged release.
 
-[Unreleased]: https://github.com/lukewalker85/automation-framework/compare/v0.6.1...HEAD
+[Unreleased]: https://github.com/lukewalker85/automation-framework/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/lukewalker85/automation-framework/compare/v0.6.1...v0.7.0
 [0.6.1]: https://github.com/lukewalker85/automation-framework/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/lukewalker85/automation-framework/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/lukewalker85/automation-framework/compare/v0.4.0...v0.5.0
