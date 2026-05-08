@@ -24,4 +24,6 @@ jobs:
           LOCKED_OUT_USER: ${{ secrets.LOCKED_OUT_USER }}
           PASSWORD: ${{ secrets.PASSWORD }}
           INVALID_PASSWORD: ${{ secrets.INVALID_PASSWORD }}
+          API_USERNAME: ${{ secrets.API_USERNAME }}
+          API_PASSWORD: ${{ secrets.API_PASSWORD }}
           HEADLESS: true
