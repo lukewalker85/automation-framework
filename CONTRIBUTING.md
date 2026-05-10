@@ -23,16 +23,19 @@ variables before running tests:
 - `LOCKED_OUT_USER`
 - `PASSWORD`
 - `INVALID_PASSWORD`
+- `API_USERNAME`
+- `API_PASSWORD`
 
 > `INVALID_PASSWORD` must be a value that does not match `PASSWORD` to ensure negative login tests fail for the correct reason.
 
 Example (Git Bash):
 
 ```bash
-STANDARD_USER=<value> LOCKED_OUT_USER=<value> PASSWORD=<value> INVALID_PASSWORD=<value> mvn verify
+STANDARD_USER=<value> LOCKED_OUT_USER=<value> PASSWORD=<value> INVALID_PASSWORD=<value> API_USERNAME=<value> API_PASSWORD=<value> mvn verify
 ```
 
-Values are available on the [SauceDemo](https://www.saucedemo.com/) login page.
+API username and password are available on the [restful-booker](https://restful-booker.herokuapp.com/apidoc/index.html#api-Auth-CreateToken) help page.
+Other values are available on the [SauceDemo](https://www.saucedemo.com/) login page.
 
 In CI, these are passed via GitHub Secrets.
 

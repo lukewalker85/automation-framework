@@ -11,6 +11,11 @@
             <class name="com.automation.tests.InventoryIT"/>
         </classes>
     </test>
+    <test name="BookingApiTests">
+        <classes>
+            <class name="com.automation.api.BookingApiIT"/>
+        </classes>
+    </test>
 
     <test name="CucumberTests">
         <classes>
