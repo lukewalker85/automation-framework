@@ -37,6 +37,6 @@ class SchemaTest {
                 assertThat(
                     invalidJson, matchesJsonSchemaInClasspath("schemas/create-booking.json")))
         .isInstanceOf(AssertionError.class)
-        .hasMessageContaining("does not match any allowed primitive type");
+        .hasMessageContaining("totalprice");
   }
 }
