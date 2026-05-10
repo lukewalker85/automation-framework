@@ -29,7 +29,7 @@ A scalable test automation framework built from scratch using Java and Selenium 
 ```text
 src/test/java/com/automation/
 ├── api/              # REST Assured API tests
-├── base/             # BaseTest — driver lifecycle management
+├── base/             # Base test classes (driver, WireMock, live API)
 ├── pages/            # Page Object Model classes
 ├── reporting/        # Screenshot capture and storage
 ├── runners/          # Cucumber test runners
@@ -107,7 +107,7 @@ This project is licensed under the MIT License — see [LICENSE](LICENSE) for de
 - [x] Headless browser mode
 - [x] GitHub Actions workflow
 - [x] AI code reviews on pull requests
-- [ ] Allure test reporting
+- [x] Allure test reporting
 - [ ] REST Assured + WireMock API testing
 - [ ] CartPage and cart tests
 - [ ] CheckoutPage and end-to-end checkout tests
