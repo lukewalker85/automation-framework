@@ -1,5 +1,6 @@
 package com.automation.api;
 
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -104,6 +105,19 @@ public class BookingApiIT extends BaseLiveApiTest {
         .get("/booking/" + id)
         .then()
         .statusCode(404);
+  }
+
+  @Test
+  public void shouldReturnValidSchemaForCreateBooking() {
+    LOG.info("Checking create booking matches schema");
+    RestAssured.given()
+        .spec(getRequestSpecification())
+        .body(buildBookingBody())
+        .when()
+        .post("/booking")
+        .then()
+        .statusCode(200)
+        .body(matchesJsonSchemaInClasspath("schemas/create-booking.json"));
   }
 
   private Map<String, Object> buildBookingBody() {
