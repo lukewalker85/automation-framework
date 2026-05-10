@@ -27,16 +27,17 @@ public class BaseLiveApiTest {
 
   /**
    * Sets up RequestSpecification using the base URI from config. Overrides the Accept header as
-   * restful-booker requires an explicit content type. Overrides filters to use request and response
-   * logging filters
+   * restful-booker requires an explicit content type. Adds request and response logging filters
+   * when LOG_LEVEL is set to DEBUG.
    */
   @BeforeClass
   public void setup() {
     LOG.info("Creating RequestSpecification");
     spec =
         RequestSpecificationFactory.buildRequestSpec(configReader.get("BASE_API_URI"))
-            .accept("application/json")
-            .filter(new RequestLoggingFilter())
-            .filter(new ResponseLoggingFilter());
+            .accept("application/json");
+    if ("DEBUG".equals(configReader.get("LOG_LEVEL"))) {
+      spec = spec.filter(new RequestLoggingFilter()).filter(new ResponseLoggingFilter());
+    }
   }
 }

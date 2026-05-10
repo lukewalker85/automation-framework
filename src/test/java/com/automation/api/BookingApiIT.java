@@ -71,7 +71,7 @@ public class BookingApiIT extends BaseLiveApiTest {
   public void shouldUpdateBookingDetails() {
     int id = createBooking();
     String token = getAuthToken();
-    LOG.info("Updating booking id: {} token: {}", id, token);
+    LOG.info("Updating booking id: {}", id);
     RestAssured.given()
         .spec(getRequestSpecification())
         .cookie("token", token)
@@ -88,7 +88,7 @@ public class BookingApiIT extends BaseLiveApiTest {
   public void shouldReturn404WhenCheckingDeletedBooking() {
     int id = createBooking();
     String token = getAuthToken();
-    LOG.info("Deleting booking id: {} token: {}", id, token);
+    LOG.info("Deleting booking id: {}", id);
     RestAssured.given()
         .spec(getRequestSpecification())
         .cookie("token", token)
