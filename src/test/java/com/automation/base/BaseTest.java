@@ -34,8 +34,9 @@ public class BaseTest {
   }
 
   /** Sets up driver before test */
-  @BeforeMethod
+  @BeforeMethod(alwaysRun = true)
   public void setUp() {
+    LOG.info("setUp() invoked");
     String configuredBrowser = configReader.get("BROWSER");
     String browser = configuredBrowser == null ? "firefox" : configuredBrowser.toLowerCase();
     boolean headless = "true".equalsIgnoreCase(configReader.get("HEADLESS"));

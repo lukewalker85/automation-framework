@@ -39,10 +39,18 @@ Other values are available on the [SauceDemo](https://www.saucedemo.com/) login 
 
 In CI, these are passed via GitHub Secrets.
 
+## Configuration
+
+Non-sensitive configuration lives in `src/test/resources/config.properties`. 
+Environment variables override file values for CI flexibility.
+
+Test credentials are managed via environment variables (GitHub Secrets in CI). 
+See [CONTRIBUTING.md](CONTRIBUTING.md) for local setup instructions.
+
 ## Running Tests
 
-> **Note:** Test credentials must be set as environment variables before 
-> running tests. See [Test Credentials](#test-credentials) above.
+> **Note:** Test credentials must be set before running tests. 
+> See [Configuration](#configuration) above.
 
 ```bash
 # Unit tests only
@@ -51,9 +59,17 @@ mvn test
 # Full suite (unit + integration)
 mvn verify
 
+# Smoke suite (fast, critical-path subset)
+mvn verify -Psmoke
+
+# Regression suite (full coverage, includes smoke)
+mvn verify -Pregression
+
 # Specific browser
 BROWSER=chrome mvn verify
 ```
+
+Smoke and regression suites each write their Allure results to a dedicated subfolder (`target/allure-results/smoke` / `target/allure-results/regression`), so results from one suite never overwrite or mix with another. Run `mvn allure:serve` with the matching profile (e.g. `mvn allure:serve -Psmoke`) to inspect that suite's results.
 
 ## Branch Naming
 

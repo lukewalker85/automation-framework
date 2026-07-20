@@ -12,6 +12,8 @@
     <maven.compiler.target>21</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <allure.version>2.34.0</allure.version>
+    <suiteXmlFile>testng.xml</suiteXmlFile>
+    <allure.results.directory>allure-results</allure.results.directory>
   </properties>
   <dependencies>
     <dependency>
@@ -119,8 +121,11 @@
         <version>3.2.5</version>
         <configuration>
           <suiteXmlFiles>
-            <suiteXmlFile>testng.xml</suiteXmlFile>
+            <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
           </suiteXmlFiles>
+          <systemPropertyVariables>
+            <allure.results.directory>${project.build.directory}/${allure.results.directory}</allure.results.directory>
+          </systemPropertyVariables>
         </configuration>
         <dependencies>
           <dependency>
@@ -182,4 +187,20 @@
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>smoke</id>
+      <properties>
+        <suiteXmlFile>testng-smoke.xml</suiteXmlFile>
+        <allure.results.directory>allure-results/smoke</allure.results.directory>
+      </properties>
+    </profile>
+    <profile>
+      <id>regression</id>
+      <properties>
+        <suiteXmlFile>testng-regression.xml</suiteXmlFile>
+        <allure.results.directory>allure-results/regression</allure.results.directory>
+      </properties>
+    </profile>
+  </profiles>
 </project>
