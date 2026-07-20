@@ -17,7 +17,7 @@ public class InventoryIT extends BaseTest {
   private static final ThreadLocal<InventoryPage> inventoryPage = new ThreadLocal<>();
   private static final String ADD_TO_CART_PRODUCT = "Sauce Labs Backpack";
 
-  @BeforeMethod
+  @BeforeMethod(alwaysRun = true)
   public void loginToSauceDemoSite() {
     getDriver().get(getConfigReader().get("BASE_URL"));
     LoginPage loginPage = new LoginPage(getDriver());
@@ -27,18 +27,18 @@ public class InventoryIT extends BaseTest {
     inventoryPage.set(new InventoryPage(getDriver()));
   }
 
-  @Test
+  @Test(groups = "smoke")
   public void aProductIsDisplayed() {
     assertThat(inventoryPage.get().getProductCount()).isNotZero();
   }
 
-  @Test
+  @Test(groups = "regression")
   public void theCartBadgeDisplaysTheNumberOfItemsInIt() {
     inventoryPage.get().clickAddToCart(ADD_TO_CART_PRODUCT);
     assertThat(inventoryPage.get().getCartBadgeNumber()).isEqualTo(1);
   }
 
-  @Test(dataProvider = "sortOptionsData")
+  @Test(groups = "regression", dataProvider = "sortOptionsData")
   public void sortInventoryTest(InventoryScenario inventoryScenario) {
     inventoryPage.get().selectSortOption(inventoryScenario.sortOption());
     assertThat(inventoryPage.get().getFirstItemName()).isEqualTo(inventoryScenario.firstItem());

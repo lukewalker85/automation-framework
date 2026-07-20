@@ -30,8 +30,9 @@ public class BaseLiveApiTest {
    * restful-booker requires an explicit content type. Adds request and response logging filters
    * when LOG_LEVEL is set to DEBUG.
    */
-  @BeforeClass
+  @BeforeClass(alwaysRun = true)
   public void setup() {
+    LOG.info("setUp() invoked");
     LOG.info("Creating RequestSpecification");
     spec =
         RequestSpecificationFactory.buildRequestSpec(configReader.get("BASE_API_URI"))

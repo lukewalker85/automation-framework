@@ -15,13 +15,13 @@ public class LoginIT extends BaseTest {
 
   private static final ThreadLocal<LoginPage> loginPage = new ThreadLocal<>();
 
-  @BeforeMethod
+  @BeforeMethod(alwaysRun = true)
   public void setUpPage() {
     getDriver().get(getConfigReader().get("BASE_URL"));
     loginPage.set(new LoginPage(getDriver()));
   }
 
-  @Test
+  @Test(groups = "smoke")
   public void successfulLoginTest() {
     loginPage
         .get()
@@ -31,7 +31,7 @@ public class LoginIT extends BaseTest {
         .waitForUrl(getConfigReader().get("BASE_URL") + getConfigReader().get("INVENTORY_PATH"));
   }
 
-  @Test(dataProvider = "failedLoginData")
+  @Test(groups = "regression", dataProvider = "failedLoginData")
   public void failedLoginTest(LoginScenario scenario) {
     loginPage.get().login(scenario.username(), scenario.password());
     assertThat(loginPage.get().getErrorMessage()).contains(scenario.expectedError());

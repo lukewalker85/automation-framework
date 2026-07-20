@@ -17,7 +17,7 @@ public class BookingApiIT extends BaseLiveApiTest {
 
   private static final Logger LOG = LoggerFactory.getLogger(BookingApiIT.class);
 
-  @Test
+  @Test(groups = "smoke")
   public void shouldReturnTokenForValidCredentials() {
     LOG.info("Requesting token with valid credentials");
     RestAssured.given()
@@ -35,7 +35,7 @@ public class BookingApiIT extends BaseLiveApiTest {
         .body("token", is(notNullValue()));
   }
 
-  @Test
+  @Test(groups = "regression")
   public void shouldReturnBookingId() {
     LOG.info("Creating booking");
     RestAssured.given()
@@ -49,7 +49,7 @@ public class BookingApiIT extends BaseLiveApiTest {
         .body("booking.firstname", equalTo("Jim"));
   }
 
-  @Test
+  @Test(groups = "regression")
   public void shouldReturnBookingDetails() {
     int id = createBooking();
     LOG.info("Getting booking details from booking id: {}", id);
@@ -68,7 +68,7 @@ public class BookingApiIT extends BaseLiveApiTest {
         .body("additionalneeds", equalTo("Breakfast"));
   }
 
-  @Test
+  @Test(groups = "regression")
   public void shouldUpdateBookingDetails() {
     int id = createBooking();
     String token = getAuthToken();
@@ -85,7 +85,7 @@ public class BookingApiIT extends BaseLiveApiTest {
         .body("additionalneeds", equalTo("No Breakfast"));
   }
 
-  @Test
+  @Test(groups = "regression")
   public void shouldReturn404WhenCheckingDeletedBooking() {
     int id = createBooking();
     String token = getAuthToken();
@@ -107,7 +107,7 @@ public class BookingApiIT extends BaseLiveApiTest {
         .statusCode(404);
   }
 
-  @Test
+  @Test(groups = "regression")
   public void shouldReturnValidSchemaForCreateBooking() {
     LOG.info("Checking create booking matches schema");
     RestAssured.given()

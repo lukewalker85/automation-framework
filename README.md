@@ -40,6 +40,9 @@ src/test/java/com/automation/
 src/test/resources/
 ├── features/         # Cucumber BDD feature files
 └── testdata/         # Data-driven test data
+testng.xml                  # Full suite (unit + integration)
+testng-smoke.xml            # Smoke suite (critical-path subset)
+testng-regression.xml       # Regression suite (full coverage)
 ```
 
 ## Configuration
@@ -62,9 +65,17 @@ mvn test
 # Full suite (unit + integration)
 mvn verify
 
+# Smoke suite (fast, critical-path subset)
+mvn verify -Psmoke
+
+# Regression suite (full coverage, includes smoke)
+mvn verify -Pregression
+
 # Specific browser
 BROWSER=chrome mvn verify
 ```
+
+Smoke and regression suites each write their Allure results to a dedicated subfolder (`target/allure-results/smoke` / `target/allure-results/regression`), so results from one suite never overwrite or mix with another. Run `mvn allure:serve` with the matching profile (e.g. `mvn allure:serve -Psmoke`) to inspect that suite's results.
 
 ## Logging
 
@@ -108,10 +119,10 @@ This project is licensed under the MIT License — see [LICENSE](LICENSE) for de
 - [x] GitHub Actions workflow
 - [x] AI code reviews on pull requests
 - [x] Allure test reporting
-- [ ] REST Assured + WireMock API testing
-- [ ] CartPage and cart tests
-- [ ] CheckoutPage and end-to-end checkout tests
-- [ ] Test grouping for smoke and regression suites
+- [x] REST Assured + WireMock API testing
+- [x] CartPage and cart tests
+- [x] CheckoutPage and end-to-end checkout tests
+- [x] Test grouping for smoke and regression suites
 - [ ] Environment switching
 - [ ] Cross-browser test matrix
 - [ ] Docker + Selenium Grid

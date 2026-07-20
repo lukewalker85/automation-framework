@@ -1,5 +1,6 @@
 Feature: Checkout Page Interactions
 
+    @smoke
     Scenario: Successful order journey
         Given the user is logged in
         When the product name and price are stored
@@ -12,6 +13,7 @@ Feature: Checkout Page Interactions
         And the finish button is clicked
         Then they should be presented with the order complete message
 
+    @regression
     Scenario: Missing shipping information
         Given the user is logged in
         When the add to cart button is clicked for 'Sauce Labs Backpack'

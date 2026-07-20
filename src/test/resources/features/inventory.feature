@@ -1,9 +1,11 @@
 Feature: Inventory page interactions
 
+    @smoke
     Scenario: Product is displayed
         Given the user is logged in
         Then a product is displayed
 
+    @regression
     Scenario Outline: Sorting products
         Given the user is logged in
         When the filter is changed to '<sort_option>'
@@ -16,6 +18,7 @@ Feature: Inventory page interactions
             | Price (low to high) | Sauce Labs Onesie                 | Sauce Labs Fleece Jacket          |
             | Price (high to low) | Sauce Labs Fleece Jacket          | Sauce Labs Onesie                 |
 
+    @regression
     Scenario: Cart badge is updated
         Given the user is logged in
         When the add to cart button is clicked for 'Sauce Labs Backpack'
