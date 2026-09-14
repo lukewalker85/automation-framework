@@ -10,15 +10,16 @@ import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 
 /**
- * Retries a failing test up to {@code RETRY_COUNT} times (see config.properties). Applied to every
- * {@code @Test} method framework-wide via {@link RetryTransformer}, so individual tests don't need
- * to declare a retryAnalyzer themselves.
+ * Retries a failing test up to {@code RETRY_COUNT} times (see the active environment's config file,
+ * per {@link ConfigReader#forEnvironment()}). Applied to every {@code @Test} method framework-wide
+ * via {@link RetryTransformer}, so individual tests don't need to declare a retryAnalyzer
+ * themselves.
  */
 public class RetryAnalyzer implements IRetryAnalyzer {
 
   private static final Logger LOG = LoggerFactory.getLogger(RetryAnalyzer.class);
   private static final int DEFAULT_RETRY_COUNT = 0;
-  private static final ConfigReader CONFIG = new ConfigReader("config.properties");
+  private static final ConfigReader CONFIG = ConfigReader.forEnvironment();
 
   private final int maxRetryCount;
   private final AtomicInteger attempts = new AtomicInteger(0);

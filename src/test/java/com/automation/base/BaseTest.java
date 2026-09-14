@@ -19,7 +19,7 @@ public class BaseTest {
 
   private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
   private static final Logger LOG = LoggerFactory.getLogger(BaseTest.class);
-  private final ConfigReader configReader = new ConfigReader("config.properties");
+  private final ConfigReader configReader = ConfigReader.forEnvironment();
 
   public BaseTest() {
     applyTimeout();
