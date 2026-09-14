@@ -43,7 +43,7 @@ In CI, these are passed via GitHub Secrets.
 
 Non-sensitive configuration lives in `src/test/resources/config-<env>.properties`, one file per
 environment (`dev`, `staging`, `prod`). Environment variables override file values for CI
-flexibility. Select an environment via `-Denv=<name>` or the `ENV` environment variable — see
+flexibility. Select an environment via `-Denv=<name>` or the `TEST_ENV` environment variable — see
 [Environment Switching](README.md#environment-switching) in the README.
 
 Test credentials are managed via environment variables (GitHub Secrets in CI). 

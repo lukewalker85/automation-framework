@@ -28,13 +28,17 @@ public enum Environment {
 
   /**
    * Resolves the active environment from the {@code env} system property (settable via {@code
-   * -Denv=<name>} on the command line), falling back to the {@code ENV} environment variable, then
-   * defaulting to {@link #DEV} when neither is set.
+   * -Denv=<name>} on the command line), falling back to the {@code TEST_ENV} environment variable,
+   * then defaulting to {@link #DEV} when neither is set.
+   *
+   * <p>The environment variable is deliberately not named {@code ENV} — that name is reserved by
+   * some POSIX shells (e.g. Alpine/BusyBox {@code ash} exports {@code ENV=/etc/profile}), so a
+   * container-based CI image could otherwise supply an unrelated, invalid value.
    *
    * @throws IllegalArgumentException if the resolved value is not a known environment
    */
   public static Environment resolve() {
-    return resolve(System.getProperty("env"), System.getenv("ENV"));
+    return resolve(System.getProperty("env"), System.getenv("TEST_ENV"));
   }
 
   static Environment resolve(String systemProperty, String envVar) {

@@ -61,7 +61,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for local setup instructions.
 ## Environment Switching
 
 Tests run against `dev` by default. Select a different environment via the `env` system property
-on the command line, or the `ENV` environment variable:
+on the command line, or the `TEST_ENV` environment variable:
 
 ```bash
 # Run against staging
@@ -71,7 +71,7 @@ mvn verify -Denv=staging
 mvn verify -Denv=prod
 
 # Equivalent using an environment variable
-ENV=staging mvn verify
+TEST_ENV=staging mvn verify
 ```
 
 Each environment's configuration lives in its own file — `config-dev.properties`,
