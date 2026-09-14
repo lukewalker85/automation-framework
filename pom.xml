@@ -14,7 +14,7 @@
     <allure.version>2.34.0</allure.version>
     <suiteXmlFile>testng.xml</suiteXmlFile>
     <allure.results.directory>allure-results</allure.results.directory>
-    <env>dev</env>
+    <env/>
   </properties>
   <dependencies>
     <dependency>

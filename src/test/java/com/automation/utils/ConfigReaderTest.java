@@ -185,18 +185,31 @@ class ConfigReaderTest {
   }
 
   @Test
-  void forEnvironment_shouldDefaultToDevConfigWhenNoEnvironmentSelected() {
-    ConfigReader config = ConfigReader.forEnvironment();
-    assertThat(config.get("ENVIRONMENT")).isEqualTo("dev");
+  void forEnvironment_shouldSelectDevConfigWhenNoEnvironmentSelected() {
+    Environment environment = Environment.resolve(System.getProperty("env"), System.getenv("ENV"));
+
+    assertThat(environment).isEqualTo(Environment.DEV);
+    assertThat(loadWithoutEnvOverride(environment).get("ENVIRONMENT")).isEqualTo("dev");
   }
 
   @Test
-  void forEnvironment_shouldLoadSelectedEnvironmentsConfig() {
+  void forEnvironment_shouldSelectConfiguredEnvironmentsConfig() {
     System.setProperty("env", "staging");
 
-    ConfigReader config = ConfigReader.forEnvironment();
+    Environment environment = Environment.resolve(System.getProperty("env"), System.getenv("ENV"));
 
-    assertThat(config.get("ENVIRONMENT")).isEqualTo("staging");
+    assertThat(environment).isEqualTo(Environment.STAGING);
+    assertThat(loadWithoutEnvOverride(environment).get("ENVIRONMENT")).isEqualTo("staging");
+  }
+
+  /**
+   * Loads an environment's config file with a no-op env lookup, so the {@code ENVIRONMENT}
+   * assertion reflects the file's own value rather than a same-named OS environment variable that
+   * {@link ConfigReader#forEnvironment()}'s real environment-variable lookup would pick up first.
+   */
+  private static ConfigReader loadWithoutEnvOverride(Environment environment) {
+    Properties properties = ConfigReader.loadFromClasspath(environment.getConfigFile());
+    return new ConfigReader(properties, key -> null);
   }
 
   @Test

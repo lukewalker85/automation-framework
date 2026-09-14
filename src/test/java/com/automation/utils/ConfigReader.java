@@ -51,7 +51,7 @@ public class ConfigReader {
     return new ConfigReader(Environment.resolve().getConfigFile());
   }
 
-  private static Properties loadFromClasspath(String resource) {
+  static Properties loadFromClasspath(String resource) {
     Properties props = new Properties();
     try (InputStream stream = ConfigReader.class.getClassLoader().getResourceAsStream(resource)) {
       if (stream == null) {
