@@ -41,8 +41,10 @@ In CI, these are passed via GitHub Secrets.
 
 ## Configuration
 
-Non-sensitive configuration lives in `src/test/resources/config.properties`. 
-Environment variables override file values for CI flexibility.
+Non-sensitive configuration lives in `src/test/resources/config-<env>.properties`, one file per
+environment (`dev`, `staging`, `prod`). Environment variables override file values for CI
+flexibility. Select an environment via `-Denv=<name>` or the `ENV` environment variable — see
+[Environment Switching](README.md#environment-switching) in the README.
 
 Test credentials are managed via environment variables (GitHub Secrets in CI). 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for local setup instructions.
@@ -67,6 +69,9 @@ mvn verify -Pregression
 
 # Specific browser
 BROWSER=chrome mvn verify
+
+# Specific environment
+mvn verify -Denv=staging
 ```
 
 Smoke and regression suites each write their Allure results to a dedicated subfolder (`target/allure-results/smoke` / `target/allure-results/regression`), so results from one suite never overwrite or mix with another. Run `mvn allure:serve` with the matching profile (e.g. `mvn allure:serve -Psmoke`) to inspect that suite's results.
