@@ -90,7 +90,7 @@ Logs are written to both the console and `target/logs/`, rotating at 10 MB. Vali
 
 ## Retries
 
-Failing tests are automatically retried, so transient failures (flaky UI timing, network blips) don't fail the build outright. Retry count is configurable via `RETRY_COUNT` in `config.properties` (default: `0`, i.e. no retries):
+Failing tests are automatically retried, so transient failures (flaky UI timing, network blips) don't fail the build outright. Retry count is configurable via `RETRY_COUNT` in `config.properties` (default: `2`):
 
 ```properties
 RETRY_COUNT=2
