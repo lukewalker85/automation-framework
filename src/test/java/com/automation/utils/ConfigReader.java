@@ -14,6 +14,10 @@ import org.slf4j.LoggerFactory;
  * Reads configuration from a classpath properties file with environment variable overrides.
  * Environment variables take priority over file values, enabling CI and local configuration without
  * code changes.
+ *
+ * <p>The current lookup order for {@link #get(String)} is env var &rarr; properties file. This is
+ * deliberately a simple chain so a future source (e.g. a secrets manager) can be inserted ahead of
+ * the environment variable check without changing callers.
  */
 public class ConfigReader {
 
@@ -38,7 +42,16 @@ public class ConfigReader {
     log.info("Config loaded - log level: {}", System.getProperty("logLevel"));
   }
 
-  private static Properties loadFromClasspath(String resource) {
+  /**
+   * Creates a ConfigReader for the currently selected {@link Environment} (see {@link
+   * Environment#resolve()}), loading that environment's classpath properties file with system
+   * environment variable override.
+   */
+  public static ConfigReader forEnvironment() {
+    return new ConfigReader(Environment.resolve().getConfigFile());
+  }
+
+  static Properties loadFromClasspath(String resource) {
     Properties props = new Properties();
     try (InputStream stream = ConfigReader.class.getClassLoader().getResourceAsStream(resource)) {
       if (stream == null) {
@@ -49,6 +62,14 @@ public class ConfigReader {
       throw new RuntimeException("Could not load config from " + resource, e);
     }
     return props;
+  }
+
+  /**
+   * The raw loaded properties, bypassing the environment variable override. Package-private for
+   * test verification of file content independent of the real process environment.
+   */
+  Properties getProperties() {
+    return properties;
   }
 
   public String get(String key) {

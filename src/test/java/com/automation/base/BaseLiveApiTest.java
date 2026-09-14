@@ -13,7 +13,7 @@ import org.testng.annotations.BeforeClass;
 public class BaseLiveApiTest {
 
   private static final Logger LOG = LoggerFactory.getLogger(BaseLiveApiTest.class);
-  private final ConfigReader configReader = new ConfigReader("config.properties");
+  private final ConfigReader configReader = ConfigReader.forEnvironment();
 
   private RequestSpecification spec;
 

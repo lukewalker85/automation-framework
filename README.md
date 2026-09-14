@@ -37,10 +37,13 @@ src/test/java/com/automation/
 ├── stepdefinitions/  # Cucumber step definitions
 ├── testdata/         # Test data records and constants
 ├── tests/            # TestNG integration tests
-└── utils/            # ConfigReader, DriverFactory, helpers
+└── utils/            # ConfigReader, Environment, DriverFactory, helpers
 src/test/resources/
 ├── features/         # Cucumber BDD feature files
-└── testdata/         # Data-driven test data
+├── testdata/         # Data-driven test data
+├── config-dev.properties        # Dev environment config (default)
+├── config-staging.properties    # Staging environment config
+└── config-prod.properties       # Prod environment config
 testng.xml                  # Full suite (unit + integration)
 testng-smoke.xml            # Smoke suite (critical-path subset)
 testng-regression.xml       # Regression suite (full coverage)
@@ -48,11 +51,33 @@ testng-regression.xml       # Regression suite (full coverage)
 
 ## Configuration
 
-Non-sensitive configuration lives in `src/test/resources/config.properties`. 
+Non-sensitive configuration lives in `src/test/resources/config-<env>.properties`, one file per
+environment (`dev`, `staging`, `prod`) — see [Environment Switching](#environment-switching) below.
 Environment variables override file values for CI flexibility.
 
 Test credentials are managed via environment variables (GitHub Secrets in CI). 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for local setup instructions.
+
+## Environment Switching
+
+Tests run against `dev` by default. Select a different environment via the `env` system property
+on the command line, or the `TEST_ENV` environment variable:
+
+```bash
+# Run against staging
+mvn verify -Denv=staging
+
+# Run against prod
+mvn verify -Denv=prod
+
+# Equivalent using an environment variable
+TEST_ENV=staging mvn verify
+```
+
+Each environment's configuration lives in its own file — `config-dev.properties`,
+`config-staging.properties`, `config-prod.properties` — so environment-specific values (base
+URLs, log level, etc.) stay independent. Add a new environment by creating a `config-<name>.properties`
+file and a matching constant in `com.automation.utils.Environment`.
 
 ## Running Tests
 
@@ -74,13 +99,16 @@ mvn verify -Pregression
 
 # Specific browser
 BROWSER=chrome mvn verify
+
+# Specific environment
+mvn verify -Denv=staging
 ```
 
 Smoke and regression suites each write their Allure results to a dedicated subfolder (`target/allure-results/smoke` / `target/allure-results/regression`), so results from one suite never overwrite or mix with another. Run `mvn allure:serve` with the matching profile (e.g. `mvn allure:serve -Psmoke`) to inspect that suite's results.
 
 ## Logging
 
-SLF4J with Log4j2 provides structured logging across all framework classes. Log level is configurable via `config.properties` or the `LOG_LEVEL` environment variable:
+SLF4J with Log4j2 provides structured logging across all framework classes. Log level is configurable via the active environment's `config-<env>.properties` or the `LOG_LEVEL` environment variable:
 
 ```bash
 LOG_LEVEL=DEBUG mvn verify
@@ -90,7 +118,7 @@ Logs are written to both the console and `target/logs/`, rotating at 10 MB. Vali
 
 ## Retries
 
-Failing tests are automatically retried, so transient failures (flaky UI timing, network blips) don't fail the build outright. Retry count is configurable via `RETRY_COUNT` in `config.properties` (default: `2`):
+Failing tests are automatically retried, so transient failures (flaky UI timing, network blips) don't fail the build outright. Retry count is configurable via `RETRY_COUNT` in the active environment's `config-<env>.properties` (default: `2`):
 
 ```properties
 RETRY_COUNT=2
@@ -135,6 +163,6 @@ This project is licensed under the MIT License — see [LICENSE](LICENSE) for de
 - [x] CheckoutPage and end-to-end checkout tests
 - [x] Test grouping for smoke and regression suites
 - [x] Retry failed tests
-- [ ] Environment switching
+- [x] Environment switching
 - [ ] Cross-browser test matrix
 - [ ] Docker + Selenium Grid

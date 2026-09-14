@@ -23,6 +23,16 @@ class ConfigReaderTest {
     System.clearProperty("logLevel");
   }
 
+  @BeforeEach
+  void clearEnvironmentProperty() {
+    System.clearProperty("env");
+  }
+
+  @AfterEach
+  void resetEnvironmentProperty() {
+    System.clearProperty("env");
+  }
+
   @Test
   void shouldReturnPropertyValue() {
     Properties props = new Properties();
@@ -73,7 +83,7 @@ class ConfigReaderTest {
 
   @Test
   void constructor_shouldApplyLogLevelFromClasspath() {
-    new ConfigReader("config.properties");
+    new ConfigReader("config-dev.properties");
     assertThat(System.getProperty("logLevel")).isNotNull();
   }
 
@@ -172,6 +182,38 @@ class ConfigReaderTest {
             org.assertj.core.api.Assertions.catchThrowable(() -> config.getInt("RETRY_COUNT", 2)))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("RETRY_COUNT");
+  }
+
+  @Test
+  void forEnvironment_shouldDefaultToDevWhenNoEnvironmentSelected() {
+    assertThat(Environment.resolve(null, null)).isEqualTo(Environment.DEV);
+  }
+
+  @Test
+  void forEnvironment_shouldLoadDevConfigFile() {
+    System.setProperty("env", "dev");
+
+    ConfigReader config = ConfigReader.forEnvironment();
+
+    assertThat(config.getProperties().getProperty("ENVIRONMENT")).isEqualTo("dev");
+  }
+
+  @Test
+  void forEnvironment_shouldLoadStagingConfigFile() {
+    System.setProperty("env", "staging");
+
+    ConfigReader config = ConfigReader.forEnvironment();
+
+    assertThat(config.getProperties().getProperty("ENVIRONMENT")).isEqualTo("staging");
+  }
+
+  @Test
+  void forEnvironment_shouldLoadProdConfigFile() {
+    System.setProperty("env", "prod");
+
+    ConfigReader config = ConfigReader.forEnvironment();
+
+    assertThat(config.getProperties().getProperty("ENVIRONMENT")).isEqualTo("prod");
   }
 
   @Test
