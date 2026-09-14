@@ -30,6 +30,7 @@ A scalable test automation framework built from scratch using Java and Selenium 
 src/test/java/com/automation/
 ├── api/              # REST Assured API tests
 ├── base/             # Base test classes (driver, WireMock, live API)
+├── listeners/        # TestNG retry analyzer and annotation transformer
 ├── pages/            # Page Object Model classes
 ├── reporting/        # Screenshot capture and storage
 ├── runners/          # Cucumber test runners
@@ -87,6 +88,16 @@ LOG_LEVEL=DEBUG mvn verify
 
 Logs are written to both the console and `target/logs/`, rotating at 10 MB. Valid levels: `DEBUG`, `INFO`, `WARN`, `ERROR`. Default: `INFO`.
 
+## Retries
+
+Failing tests are automatically retried, so transient failures (flaky UI timing, network blips) don't fail the build outright. Retry count is configurable via `RETRY_COUNT` in `config.properties` (default: `2`):
+
+```properties
+RETRY_COUNT=2
+```
+
+Retries apply framework-wide via a TestNG `IAnnotationTransformer` (`com.automation.listeners.RetryTransformer`), so individual `@Test` methods don't need to opt in. Each retried attempt is logged and recorded as a failed step in the Allure report, with the failure reason, so retries are visible rather than appearing as a plain skip.
+
 ## Reporting
 
 > **Note:** If the build fails before integration tests run (e.g. compilation error), the report will not be generated.
@@ -123,7 +134,7 @@ This project is licensed under the MIT License — see [LICENSE](LICENSE) for de
 - [x] CartPage and cart tests
 - [x] CheckoutPage and end-to-end checkout tests
 - [x] Test grouping for smoke and regression suites
+- [x] Retry failed tests
 - [ ] Environment switching
 - [ ] Cross-browser test matrix
 - [ ] Docker + Selenium Grid
-- [ ] Retry failed tests
