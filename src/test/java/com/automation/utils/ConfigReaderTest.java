@@ -185,31 +185,35 @@ class ConfigReaderTest {
   }
 
   @Test
-  void forEnvironment_shouldSelectDevConfigWhenNoEnvironmentSelected() {
-    Environment environment = Environment.resolve(System.getProperty("env"), System.getenv("ENV"));
-
-    assertThat(environment).isEqualTo(Environment.DEV);
-    assertThat(loadWithoutEnvOverride(environment).get("ENVIRONMENT")).isEqualTo("dev");
+  void forEnvironment_shouldDefaultToDevWhenNoEnvironmentSelected() {
+    assertThat(Environment.resolve(null, null)).isEqualTo(Environment.DEV);
   }
 
   @Test
-  void forEnvironment_shouldSelectConfiguredEnvironmentsConfig() {
-    System.setProperty("env", "staging");
+  void forEnvironment_shouldLoadDevConfigFile() {
+    System.setProperty("env", "dev");
 
-    Environment environment = Environment.resolve(System.getProperty("env"), System.getenv("ENV"));
+    ConfigReader config = ConfigReader.forEnvironment();
 
-    assertThat(environment).isEqualTo(Environment.STAGING);
-    assertThat(loadWithoutEnvOverride(environment).get("ENVIRONMENT")).isEqualTo("staging");
+    assertThat(config.getProperties().getProperty("ENVIRONMENT")).isEqualTo("dev");
   }
 
-  /**
-   * Loads an environment's config file with a no-op env lookup, so the {@code ENVIRONMENT}
-   * assertion reflects the file's own value rather than a same-named OS environment variable that
-   * {@link ConfigReader#forEnvironment()}'s real environment-variable lookup would pick up first.
-   */
-  private static ConfigReader loadWithoutEnvOverride(Environment environment) {
-    Properties properties = ConfigReader.loadFromClasspath(environment.getConfigFile());
-    return new ConfigReader(properties, key -> null);
+  @Test
+  void forEnvironment_shouldLoadStagingConfigFile() {
+    System.setProperty("env", "staging");
+
+    ConfigReader config = ConfigReader.forEnvironment();
+
+    assertThat(config.getProperties().getProperty("ENVIRONMENT")).isEqualTo("staging");
+  }
+
+  @Test
+  void forEnvironment_shouldLoadProdConfigFile() {
+    System.setProperty("env", "prod");
+
+    ConfigReader config = ConfigReader.forEnvironment();
+
+    assertThat(config.getProperties().getProperty("ENVIRONMENT")).isEqualTo("prod");
   }
 
   @Test

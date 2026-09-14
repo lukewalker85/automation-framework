@@ -64,6 +64,14 @@ public class ConfigReader {
     return props;
   }
 
+  /**
+   * The raw loaded properties, bypassing the environment variable override. Package-private for
+   * test verification of file content independent of the real process environment.
+   */
+  Properties getProperties() {
+    return properties;
+  }
+
   public String get(String key) {
     String env = envLookup.apply(key);
     if (env != null && !env.isEmpty()) {
