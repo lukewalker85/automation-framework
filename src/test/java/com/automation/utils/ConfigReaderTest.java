@@ -133,6 +133,48 @@ class ConfigReaderTest {
   }
 
   @Test
+  void getInt_shouldReturnParsedValue() {
+    Properties props = new Properties();
+    props.setProperty("RETRY_COUNT", "3");
+    Function<String, String> noEnv = key -> null;
+    ConfigReader config = new ConfigReader(props, noEnv);
+
+    assertThat(config.getInt("RETRY_COUNT", 0)).isEqualTo(3);
+  }
+
+  @Test
+  void getInt_shouldReturnDefaultWhenMissing() {
+    Properties props = new Properties();
+    Function<String, String> noEnv = key -> null;
+    ConfigReader config = new ConfigReader(props, noEnv);
+
+    assertThat(config.getInt("RETRY_COUNT", 2)).isEqualTo(2);
+  }
+
+  @Test
+  void getInt_shouldReturnDefaultWhenBlank() {
+    Properties props = new Properties();
+    props.setProperty("RETRY_COUNT", "   ");
+    Function<String, String> noEnv = key -> null;
+    ConfigReader config = new ConfigReader(props, noEnv);
+
+    assertThat(config.getInt("RETRY_COUNT", 2)).isEqualTo(2);
+  }
+
+  @Test
+  void getInt_shouldThrowForInvalidValue() {
+    Properties props = new Properties();
+    props.setProperty("RETRY_COUNT", "not-a-number");
+    Function<String, String> noEnv = key -> null;
+    ConfigReader config = new ConfigReader(props, noEnv);
+
+    assertThat(
+            org.assertj.core.api.Assertions.catchThrowable(() -> config.getInt("RETRY_COUNT", 2)))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("RETRY_COUNT");
+  }
+
+  @Test
   void applyLogLevel_shouldWarnToStderrWhenMissing() {
     Properties props = new Properties();
     Function<String, String> noEnv = key -> null;

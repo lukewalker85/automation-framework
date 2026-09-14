@@ -60,6 +60,24 @@ public class ConfigReader {
   }
 
   /**
+   * Reads {@code key} as an integer, falling back to {@code defaultValue} when the key is missing
+   * or blank.
+   *
+   * @throws IllegalArgumentException if the configured value is not a valid integer
+   */
+  public int getInt(String key, int defaultValue) {
+    String value = get(key);
+    if (value == null || value.isBlank()) {
+      return defaultValue;
+    }
+    try {
+      return Integer.parseInt(value.trim());
+    } catch (NumberFormatException e) {
+      throw new IllegalArgumentException(key + " is not a valid integer: '" + value + "'", e);
+    }
+  }
+
+  /**
    * Reads LOG_LEVEL from config, normalises it, and sets the logLevel system property for Log4j 2.
    *
    * <p>Trims whitespace and converts to uppercase (Locale.ROOT). If LOG_LEVEL is missing or empty,
