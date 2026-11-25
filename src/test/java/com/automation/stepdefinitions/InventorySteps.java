@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.automation.base.BaseTest;
 import com.automation.pages.InventoryPage;
+import com.automation.utils.ConfigReader;
 import com.automation.utils.ScenarioContext;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -36,10 +37,12 @@ public class InventorySteps {
     getInventoryPage().clickAddToCart(item);
   }
 
-  /** Clicks the cart icon */
+  /** Clicks the cart icon and waits for the cart page to load */
   @When("the cart icon is clicked")
   public void theCartIconIsClicked() {
     getInventoryPage().clickCartIcon();
+    ConfigReader config = baseTest.getConfigReader();
+    getInventoryPage().waitForUrl(config.get("BASE_URL") + config.get("CART_PATH"));
   }
 
   /** Asserts the number of products displayed is not zero */
