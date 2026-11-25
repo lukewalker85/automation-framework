@@ -53,7 +53,8 @@ public record AllowlistEntry(String ruleId, String page, String reason) {
   public static List<AllowlistEntry> parse(List<String> lines) {
     List<AllowlistEntry> entries = new ArrayList<>();
     for (int i = 0; i < lines.size(); i++) {
-      String line = lines.get(i).strip();
+      // Windows editors may save the file with a UTF-8 byte-order mark, which strip() keeps
+      String line = lines.get(i).replaceFirst("^﻿", "").strip();
       if (line.isEmpty() || line.startsWith("#") || line.equals("ruleId,page,reason")) {
         continue;
       }

@@ -27,6 +27,14 @@ class AllowlistEntryTest {
             new AllowlistEntry("region", "cart", "Layout ticket #2"));
   }
 
+  @Test
+  void parse_shouldIgnoreByteOrderMarkAtStartOfFile() {
+    List<String> lines = List.of("﻿# comment", "region,cart,Layout ticket #2");
+
+    assertThat(AllowlistEntry.parse(lines))
+        .containsExactly(new AllowlistEntry("region", "cart", "Layout ticket #2"));
+  }
+
   @ParameterizedTest
   @ValueSource(strings = {"color-contrast,login", "color-contrast,login, ", ",login,reason"})
   void parse_shouldThrowForMalformedLineNamingLineNumber(String line) {
