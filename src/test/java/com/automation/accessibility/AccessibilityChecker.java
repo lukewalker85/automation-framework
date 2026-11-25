@@ -2,12 +2,14 @@ package com.automation.accessibility;
 
 import com.automation.utils.ConfigReader;
 import com.deque.html.axecore.results.Rule;
+import com.deque.html.axecore.selenium.AxeBuilder;
 import io.qameta.allure.Allure;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import org.openqa.selenium.WebDriver;
 
 /**
  * Runs axe-core against the current page, sorts the violations with a {@link ViolationFilter} and
@@ -31,6 +33,26 @@ public class AccessibilityChecker {
   public AccessibilityChecker(Supplier<List<Violation>> scanner, ViolationFilter filter) {
     this.scanner = Objects.requireNonNull(scanner, "scanner must not be null");
     this.filter = Objects.requireNonNull(filter, "filter must not be null");
+  }
+
+  /**
+   * Creates a checker that runs axe-core with {@link #WCAG_TAGS} against the driver's current page,
+   * using the fail level from {@code A11Y_FAIL_LEVEL} and the allowlist in {@link
+   * AllowlistEntry#RESOURCE}.
+   *
+   * @param driver the browser to scan
+   * @param config the configuration holding the fail level
+   * @return the checker
+   */
+  public static AccessibilityChecker forDriver(WebDriver driver, ConfigReader config) {
+    Supplier<List<Violation>> scanner =
+        () ->
+            new AxeBuilder()
+                .withTags(WCAG_TAGS).analyze(driver).getViolations().stream()
+                    .map(AccessibilityChecker::toViolation)
+                    .toList();
+    return new AccessibilityChecker(
+        scanner, new ViolationFilter(failLevel(config), AllowlistEntry.load()));
   }
 
   /**
