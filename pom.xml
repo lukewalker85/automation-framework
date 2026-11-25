@@ -12,6 +12,7 @@
     <maven.compiler.target>21</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <allure.version>2.34.0</allure.version>
+    <axe-selenium.version>4.14.1</axe-selenium.version>
     <suiteXmlFile>testng.xml</suiteXmlFile>
     <allure.results.directory>allure-results</allure.results.directory>
     <env/>
@@ -26,6 +27,12 @@
       <groupId>io.github.bonigarcia</groupId>
       <artifactId>webdrivermanager</artifactId>
       <version>5.7.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.deque.html.axe-core</groupId>
+      <artifactId>selenium</artifactId>
+      <version>${axe-selenium.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.testng</groupId>
