@@ -2,6 +2,7 @@ package com.automation.accessibility;
 
 import com.automation.utils.ConfigReader;
 import com.deque.html.axecore.results.Rule;
+import io.qameta.allure.Allure;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -77,7 +78,7 @@ public class AccessibilityChecker {
   }
 
   /**
-   * Scans the current page and filters the violations found.
+   * Scans the current page, filters the violations found and attaches them to the Allure report.
    *
    * @param page the page being checked, matched against the allowlist
    * @return the filtered violations
@@ -85,10 +86,43 @@ public class AccessibilityChecker {
    */
   public FilterResult check(String page) {
     FilterResult result = filter.apply(page, scanner.get());
+    Allure.addAttachment("Accessibility violations: " + page, "text/plain", report(result), ".txt");
     if (result.hasBlocking()) {
       throw new AssertionError(failureMessage(page, result.blocking()));
     }
     return result;
+  }
+
+  /**
+   * Formats every violation in the result for the Allure report, grouped as blocking, report-only
+   * and allowlisted.
+   *
+   * @param result the filtered violations
+   * @return one block per violation with its rule ID, impact, description, help URL and selectors
+   */
+  static String report(FilterResult result) {
+    return section("Blocking", result.blocking())
+        + section("Report only", result.reportOnly())
+        + section("Allowlisted", result.allowlisted());
+  }
+
+  private static String section(String title, List<Violation> violations) {
+    StringBuilder out =
+        new StringBuilder(title).append(" (").append(violations.size()).append(")\n");
+    for (Violation v : violations) {
+      out.append("  - ")
+          .append(v.ruleId())
+          .append(" (")
+          .append(v.impact().name().toLowerCase(Locale.ROOT))
+          .append(")\n    ")
+          .append(v.description())
+          .append("\n    ")
+          .append(v.helpUrl())
+          .append("\n    Selectors: ")
+          .append(String.join(", ", v.selectors()))
+          .append('\n');
+    }
+    return out.append('\n').toString();
   }
 
   private static String failureMessage(String page, List<Violation> blocking) {

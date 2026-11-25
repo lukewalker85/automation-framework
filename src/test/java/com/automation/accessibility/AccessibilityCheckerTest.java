@@ -131,6 +131,38 @@ class AccessibilityCheckerTest {
   }
 
   @Test
+  void report_shouldListEveryViolationWithAllDetailsGroupedByOutcome() {
+    Violation blocking =
+        new Violation(
+            "label",
+            Impact.CRITICAL,
+            "Form elements must have labels",
+            "https://dequeuniversity.com/rules/axe/4.10/label",
+            List.of("#user-name", "#password"));
+    Violation reportOnly = violation("region", Impact.MINOR);
+    Violation allowlisted = violation("color-contrast", Impact.SERIOUS);
+
+    String report =
+        AccessibilityChecker.report(
+            new FilterResult(List.of(blocking), List.of(reportOnly), List.of(allowlisted)));
+
+    assertThat(report)
+        .contains("Blocking (1)", "Report only (1)", "Allowlisted (1)")
+        .contains(
+            "label (critical)",
+            "Form elements must have labels",
+            "https://dequeuniversity.com/rules/axe/4.10/label",
+            "Selectors: #user-name, #password")
+        .contains("region (minor)", "color-contrast (serious)");
+  }
+
+  @Test
+  void report_shouldShowEmptyGroupsWhenNoViolations() {
+    assertThat(AccessibilityChecker.report(new FilterResult(List.of(), List.of(), List.of())))
+        .contains("Blocking (0)", "Report only (0)", "Allowlisted (0)");
+  }
+
+  @Test
   void constructor_shouldThrowForNullScanner() {
     assertThatThrownBy(
             () -> new AccessibilityChecker(null, new ViolationFilter(Impact.SERIOUS, List.of())))
