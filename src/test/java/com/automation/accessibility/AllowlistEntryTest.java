@@ -44,7 +44,9 @@ class AllowlistEntryTest {
   }
 
   @Test
-  void load_shouldReadShippedAllowlist() {
-    assertThat(AllowlistEntry.load()).isNotNull();
+  void load_shouldParseShippedAllowlistSkippingHeader() {
+    assertThat(AllowlistEntry.load())
+        .doesNotContain(new AllowlistEntry("ruleId", "page", "reason"))
+        .allSatisfy(entry -> assertThat(entry.reason()).isNotBlank());
   }
 }
