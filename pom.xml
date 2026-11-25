@@ -16,7 +16,20 @@
     <suiteXmlFile>testng.xml</suiteXmlFile>
     <allure.results.directory>allure-results</allure.results.directory>
     <env/>
+    <!-- axe-core needs jackson-databind 2.22; the BOM keeps core and annotations on the same version -->
+    <jackson.version>2.22.3</jackson.version>
   </properties>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.fasterxml.jackson</groupId>
+        <artifactId>jackson-bom</artifactId>
+        <version>${jackson.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <dependencies>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
