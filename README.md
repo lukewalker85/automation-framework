@@ -23,11 +23,13 @@ A scalable test automation framework built from scratch using Java and Selenium 
 | CodeRabbit | Automated AI code reviews |
 | JUnit 5 | Unit test execution |
 | SLF4J + Log4j2 | Structured logging |
+| axe-core | Automated accessibility checks |
 
 ## Project Structure
 
 ```text
 src/test/java/com/automation/
+├── accessibility/    # axe-core accessibility checker, impact filter and allowlist
 ├── api/              # REST Assured API tests
 ├── base/             # Base test classes (driver, WireMock, live API)
 ├── listeners/        # TestNG retry analyzer and annotation transformer
@@ -41,6 +43,7 @@ src/test/java/com/automation/
 src/test/resources/
 ├── features/         # Cucumber BDD feature files
 ├── testdata/         # Data-driven test data
+├── a11y-allowlist.csv           # Accepted accessibility violations
 ├── config-dev.properties        # Dev environment config (default)
 ├── config-staging.properties    # Staging environment config
 └── config-prod.properties       # Prod environment config
@@ -140,6 +143,52 @@ mvn allure:serve
 
 This starts a temporary web server and opens the report automatically.
 
+## Accessibility Checks
+
+> **Automated checks don't replace manual testing.** axe-core catches roughly 30–40% of accessibility issues. Screen reader, keyboard-only and zoom testing are still needed before release.
+
+The `@accessibility` scenarios in `accessibility.feature` scan the login, inventory, cart and checkout pages with [axe-core](https://github.com/dequelabs/axe-core-maven-html) against WCAG 2.2 AA (`wcag2a`, `wcag2aa`, `wcag21aa`, `wcag22aa`). They are also tagged `@regression`, so they run in the full and regression suites and in CI.
+
+```bash
+# As part of the full or regression suite
+mvn verify
+mvn verify -Pregression
+
+# Accessibility scenarios only (the TestNG integration tests in the suite still run)
+mvn verify -Pregression -Dcucumber.filter.tags=@accessibility
+```
+
+To check another page, navigate to it and add the step `Then the <page> page should have no blocking accessibility violations`.
+
+### Fail level
+
+Violations at or above `A11Y_FAIL_LEVEL` fail the scenario. Violations below it are reported but don't fail the build. Valid values are `minor`, `moderate`, `serious` and `critical`. The default is `serious`, so `critical` and `serious` violations fail the build and `moderate` and `minor` are reported only:
+
+```properties
+A11Y_FAIL_LEVEL=serious
+```
+
+As with other settings, an environment variable overrides the value in the active `config-<env>.properties`.
+
+### Reading the results
+
+Each scanned page adds an `Accessibility violations: <page>` attachment to the Allure report, grouped as **Blocking**, **Report only** and **Allowlisted**. Each violation lists its rule ID, impact, description, affected selectors and a help URL explaining how to fix it. When a scenario fails, the assertion message names the page and each blocking rule.
+
+### Allowlisting known violations
+
+Known, accepted violations go in `src/test/resources/a11y-allowlist.csv`, one per line:
+
+```csv
+ruleId,page,reason
+color-contrast,checkout,Brand colours agreed with design, fix tracked in #123
+```
+
+- `ruleId` is the axe rule ID from the report, e.g. `color-contrast`.
+- `page` must match the page name in the step, e.g. `checkout`. An entry covers that rule on that page only.
+- `reason` is required. Give a ticket reference so the exclusion is reviewed rather than forgotten. It may contain commas.
+
+Allowlisted violations still appear in the Allure report, so the suite stays green on purpose, not by accident. Remove the entry once the issue is fixed.
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for branch naming, commit conventions, PR process, and code formatting requirements.
@@ -158,6 +207,7 @@ This project is licensed under the MIT License — see [LICENSE](LICENSE) for de
 - [x] GitHub Actions workflow
 - [x] AI code reviews on pull requests
 - [x] Allure test reporting
+- [x] Automated accessibility checks (axe-core, WCAG 2.2 AA)
 - [x] REST Assured + WireMock API testing
 - [x] CartPage and cart tests
 - [x] CheckoutPage and end-to-end checkout tests

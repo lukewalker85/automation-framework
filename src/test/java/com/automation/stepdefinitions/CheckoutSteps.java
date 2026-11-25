@@ -37,7 +37,9 @@ public class CheckoutSteps {
   @When("the checkout button is clicked")
   public void theCheckoutButtonIsClicked() {
     LOG.info("Clicking checkout button");
-    new CartPage(baseTest.getDriver()).clickCheckoutButton();
+    CartPage cartPage = new CartPage(baseTest.getDriver());
+    cartPage.clickCheckoutButton();
+    cartPage.waitForUrl(configReader.get("BASE_URL") + configReader.get("CHECKOUT_PATH"));
   }
 
   @When("the shipping details are entered")

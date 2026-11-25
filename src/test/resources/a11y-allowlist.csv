@@ -1,0 +1,4 @@
+# Known, accepted accessibility violations. Matching violations are reported but do not fail the build.
+# One entry per line: ruleId,page,reason (the reason may contain commas; give a ticket reference).
+# page must match the page name used in accessibility.feature, e.g. login, inventory, cart, checkout.
+ruleId,page,reason

@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.automation</groupId>
   <artifactId>automation-framework</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.8.0</version>
   <packaging>jar</packaging>
   <name>automation-framework</name>
   <url>http://maven.apache.org</url>
@@ -12,10 +12,24 @@
     <maven.compiler.target>21</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <allure.version>2.34.0</allure.version>
+    <axe-selenium.version>4.14.1</axe-selenium.version>
     <suiteXmlFile>testng.xml</suiteXmlFile>
     <allure.results.directory>allure-results</allure.results.directory>
     <env/>
+    <!-- axe-core needs jackson-databind 2.22; the BOM keeps core and annotations on the same version -->
+    <jackson.version>2.22.3</jackson.version>
   </properties>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.fasterxml.jackson</groupId>
+        <artifactId>jackson-bom</artifactId>
+        <version>${jackson.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <dependencies>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
@@ -26,6 +40,12 @@
       <groupId>io.github.bonigarcia</groupId>
       <artifactId>webdrivermanager</artifactId>
       <version>5.7.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.deque.html.axe-core</groupId>
+      <artifactId>selenium</artifactId>
+      <version>${axe-selenium.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.testng</groupId>
