@@ -45,7 +45,7 @@ class AccessibilityCheckerTest {
   @Test
   void wcagTags_shouldCoverWcag22AaAndBelow() {
     assertThat(AccessibilityChecker.WCAG_TAGS)
-        .containsExactly("wcag2a", "wcag2aa", "wcag21aa", "wcag22aa");
+        .containsExactly("wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22a", "wcag22aa");
   }
 
   @Test

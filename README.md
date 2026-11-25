@@ -147,7 +147,7 @@ This starts a temporary web server and opens the report automatically.
 
 > **Automated checks don't replace manual testing.** axe-core catches roughly 30–40% of accessibility issues. Screen reader, keyboard-only and zoom testing are still needed before release.
 
-The `@accessibility` scenarios in `accessibility.feature` scan the login, inventory, cart and checkout pages with [axe-core](https://github.com/dequelabs/axe-core-maven-html) against WCAG 2.2 AA (`wcag2a`, `wcag2aa`, `wcag21aa`, `wcag22aa`). They are also tagged `@regression`, so they run in the full and regression suites and in CI.
+The `@accessibility` scenarios in `accessibility.feature` scan the login, inventory, cart and checkout pages with [axe-core](https://github.com/dequelabs/axe-core-maven-html) against WCAG 2.2 AA (`wcag2a`, `wcag2aa`, `wcag21a`, `wcag21aa`, `wcag22a`, `wcag22aa`). They are also tagged `@regression`, so they run in the full and regression suites and in CI.
 
 ```bash
 # As part of the full or regression suite

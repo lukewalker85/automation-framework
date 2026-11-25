@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.1] - 2026-11-25
+
+### Fixed
+
+- Accessibility scans now include the `wcag21a` and `wcag22a` tags, so the WCAG 2.1 Level A rule `label-content-name-mismatch` (2.5.3 Label in Name) runs as part of WCAG 2.2 AA (#103)
+
 ## [0.8.0] - 2026-11-25
 
 ### Added
@@ -168,7 +174,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial tagged release.
 
-[Unreleased]: https://github.com/lukewalker85/automation-framework/compare/v0.8.0...HEAD
+[Unreleased]: https://github.com/lukewalker85/automation-framework/compare/v0.8.1...HEAD
+[0.8.1]: https://github.com/lukewalker85/automation-framework/compare/v0.8.0...v0.8.1
 [0.8.0]: https://github.com/lukewalker85/automation-framework/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/lukewalker85/automation-framework/compare/v0.6.1...v0.7.0
 [0.6.1]: https://github.com/lukewalker85/automation-framework/compare/v0.6.0...v0.6.1

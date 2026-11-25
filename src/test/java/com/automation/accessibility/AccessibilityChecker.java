@@ -17,8 +17,12 @@ import org.openqa.selenium.WebDriver;
  */
 public class AccessibilityChecker {
 
-  /** The axe-core tags scanned for: WCAG 2.0 A and AA, 2.1 AA and 2.2 AA. */
-  public static final List<String> WCAG_TAGS = List.of("wcag2a", "wcag2aa", "wcag21aa", "wcag22aa");
+  /**
+   * The axe-core tags scanned for: Level A and AA of WCAG 2.0, 2.1 and 2.2. axe tags each rule only
+   * with the version that introduced it, so every version's tags are needed to cover WCAG 2.2 AA.
+   */
+  public static final List<String> WCAG_TAGS =
+      List.of("wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22a", "wcag22aa");
 
   private static final String FAIL_LEVEL_KEY = "A11Y_FAIL_LEVEL";
 
