@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Accessibility scans now include the `wcag21a` and `wcag22a` tags, so the WCAG 2.1 Level A rule `label-content-name-mismatch` (2.5.3 Label in Name) runs as part of WCAG 2.2 AA (#103)
+
 ## [0.8.0] - 2026-11-25
 
 ### Added
