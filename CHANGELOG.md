@@ -7,6 +7,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-11-25
+
+### Added
+
+- API test utilities: RequestSpecificationFactory, ResponseSpecificationFactory and AuthTokenManager, with unit tests (#96)
+- `BASE_API_URI` config and `API_USERNAME` / `API_PASSWORD` environment variables, passed in from GitHub Secrets in CI (#96)
+- WireMock-mocked IAM API tests (AuthTest, UserOperationsTest) with a BaseApiTest that manages the WireMock server lifecycle (#97)
+- REST Assured tests against the live restful-booker API (BookingApiIT) with a BaseLiveApiTest base class (#98)
+- Request and response logging for live API tests when `LOG_LEVEL` is `DEBUG` (#98)
+- JSON schema validation for API responses using REST Assured's json-schema-validator, with a create-booking schema (#99)
+- Smoke and regression test groups: `testng-smoke.xml` and `testng-regression.xml` suites, `smoke` and `regression` Maven profiles, Cucumber smoke and regression runners, and `@smoke` / `@regression` tags on feature files (#100)
+- Separate Allure results folders per suite (`allure-results/smoke`, `allure-results/regression`) (#100)
+- Configurable retries for flaky tests via RetryAnalyzer and RetryTransformer, with `RETRY_COUNT` in config (default: `2`) (#101)
+- Retry attempts recorded as failed steps in the Allure report (#101)
+- `ConfigReader.getInt` for integer settings with a default (#101)
+- Environment switching between `dev`, `staging` and `prod` via `-Denv` or the `TEST_ENV` environment variable (default: `dev`) (#102)
+- Environment enum and `ConfigReader.forEnvironment()` to load the matching config file (#102)
+- Automated accessibility checks with axe-core (`com.deque.html.axe-core:selenium`) against WCAG 2.2 AA (`wcag2a`, `wcag2aa`, `wcag21aa`, `wcag22aa`)
+- AccessibilityChecker to scan the current page and fail on blocking violations
+- Impact filtering: violations at or above `A11Y_FAIL_LEVEL` fail the build, lower ones are reported only (default: `serious`)
+- `A11Y_FAIL_LEVEL` setting in each environment config
+- Allowlist for known, accepted violations in `a11y-allowlist.csv` (rule ID, page and reason)
+- Allure attachment per scanned page listing each violation's rule ID, impact, description, selectors and help URL
+- `@accessibility` scenarios for the login, inventory, cart and checkout pages, included in the regression suite
+- Unit tests for impact filtering, the allowlist and the checker
+- Accessibility Checks section in README
+- README and CONTRIBUTING sections for API credentials, test suites, retries and environment switching
+
+### Changed
+
+- `config.properties` split into `config-dev.properties`, `config-staging.properties` and `config-prod.properties` (#102)
+
+### Fixed
+
+- An invalid environment name now fails with a clear error when RetryAnalyzer is created, instead of an `ExceptionInInitializerError` the first time the class is referenced (#102)
+- Jackson modules aligned on one version via the Jackson BOM, fixing a `NoClassDefFoundError` after axe-core was added
+
 ## [0.7.0] - 2026-05-06
 
 ### Added
@@ -131,7 +168,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial tagged release.
 
-[Unreleased]: https://github.com/lukewalker85/automation-framework/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/lukewalker85/automation-framework/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/lukewalker85/automation-framework/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/lukewalker85/automation-framework/compare/v0.6.1...v0.7.0
 [0.6.1]: https://github.com/lukewalker85/automation-framework/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/lukewalker85/automation-framework/compare/v0.5.0...v0.6.0
