@@ -24,15 +24,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `ConfigReader.getInt` for integer settings with a default (#101)
 - Environment switching between `dev`, `staging` and `prod` via `-Denv` or the `TEST_ENV` environment variable (default: `dev`) (#102)
 - Environment enum and `ConfigReader.forEnvironment()` to load the matching config file (#102)
-- Automated accessibility checks with axe-core (`com.deque.html.axe-core:selenium`) against WCAG 2.2 AA (`wcag2a`, `wcag2aa`, `wcag21aa`, `wcag22aa`)
-- AccessibilityChecker to scan the current page and fail on blocking violations
-- Impact filtering: violations at or above `A11Y_FAIL_LEVEL` fail the build, lower ones are reported only (default: `serious`)
-- `A11Y_FAIL_LEVEL` setting in each environment config
-- Allowlist for known, accepted violations in `a11y-allowlist.csv` (rule ID, page and reason)
-- Allure attachment per scanned page listing each violation's rule ID, impact, description, selectors and help URL
-- `@accessibility` scenarios for the login, inventory, cart and checkout pages, included in the regression suite
-- Unit tests for impact filtering, the allowlist and the checker
-- Accessibility Checks section in README
+- Automated accessibility checks with axe-core (`com.deque.html.axe-core:selenium`) against WCAG 2.2 AA (`wcag2a`, `wcag2aa`, `wcag21aa`, `wcag22aa`) (#103)
+- AccessibilityChecker to scan the current page and fail on blocking violations (#103)
+- Impact filtering: violations at or above `A11Y_FAIL_LEVEL` fail the build, lower ones are reported only (default: `serious`) (#103)
+- `A11Y_FAIL_LEVEL` setting in each environment config (#103)
+- Allowlist for known, accepted violations in `a11y-allowlist.csv` (rule ID, page and reason) (#103)
+- Allure attachment per scanned page listing each violation's rule ID, impact, description, selectors and help URL (#103)
+- `@accessibility` scenarios for the login, inventory, cart and checkout pages, included in the regression suite (#103)
+- Unit tests for impact filtering, the allowlist and the checker (#103)
+- `CART_PATH` and `CHECKOUT_PATH` config, used to wait for the cart and checkout pages after navigation (#103)
+- Accessibility Checks section in README (#103)
 - README and CONTRIBUTING sections for API credentials, test suites, retries and environment switching
 
 ### Changed
@@ -42,7 +43,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - An invalid environment name now fails with a clear error when RetryAnalyzer is created, instead of an `ExceptionInInitializerError` the first time the class is referenced (#102)
-- Jackson modules aligned on one version via the Jackson BOM, fixing a `NoClassDefFoundError` after axe-core was added
 
 ## [0.7.0] - 2026-05-06
 
